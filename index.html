@@ -28,6 +28,8 @@
       --green-light: #d1fae5;
       --amber: #f59e0b;
       --amber-light: #fef3c7;
+      --purple: #8b5cf6;
+      --purple-light: #f3e8ff;
 
       --grad-hero: linear-gradient(135deg, #0284c7 0%, #0f766e 100%);
       --grad-danger: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
@@ -101,7 +103,7 @@
       margin-bottom: 12px;
     }
 
-    /* Medical Image Container */
+    /* Medical Image Container with Click-to-Zoom */
     .med-img-box {
       background: #0f172a;
       border: 1px solid var(--border);
@@ -109,13 +111,34 @@
       padding: 8px;
       margin: 12px 0;
       text-align: center;
+      position: relative;
+      cursor: pointer;
       overflow: hidden;
+      transition: transform 0.15s ease;
+    }
+
+    .med-img-box:active { transform: scale(0.99); }
+
+    .zoom-hint {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(15, 23, 42, 0.75);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .med-img {
       max-width: 100%;
       height: auto;
-      max-height: 280px;
+      max-height: 250px;
       border-radius: 8px;
       object-fit: contain;
       background: #ffffff;
@@ -133,10 +156,10 @@
 
     .med-caption strong { color: #f8fafc; }
 
-    /* Exercise Visual Preview */
+    /* Exercise Visual Row with Clickable Image */
     .exo-visual-row {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       margin: 10px 0;
       align-items: center;
       background: #f8fafc;
@@ -145,15 +168,120 @@
       border: 1px solid var(--border);
     }
 
-    .exo-thumb {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      background: #fff;
+    .exo-thumb-wrapper {
+      position: relative;
+      width: 95px;
+      height: 95px;
       flex-shrink: 0;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
     }
+
+    .exo-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .exo-thumb-wrapper:hover .exo-thumb { transform: scale(1.05); }
+
+    .exo-thumb-badge {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(2, 132, 199, 0.85);
+      color: #ffffff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-align: center;
+      padding: 2px 0;
+      text-transform: uppercase;
+    }
+
+    /* Modal / Lightbox Fullscreen */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: modalFadeIn 0.2s ease-out forwards;
+    }
+
+    @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      animation: modalZoomIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes modalZoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      color: #fff;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      z-index: 10;
+    }
+
+    .modal-img-container {
+      background: #0f172a;
+      width: 100%;
+      min-height: 220px;
+      max-height: 52vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-top-left-radius: var(--radius-xl);
+      border-top-right-radius: var(--radius-xl);
+    }
+
+    .modal-img {
+      max-width: 100%;
+      max-height: 52vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .modal-body { padding: 16px; }
+    .modal-title { font-size: 1.1rem; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+    .modal-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 12px; }
 
     /* Smart Daily Readiness Banner */
     .readiness-banner {
@@ -343,6 +471,49 @@
     .badge-target { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
     .badge-lock { background: #e2e8f0; color: #64748b; }
 
+    /* Cross Training Cards */
+    .cross-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .cross-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+
+    .cross-card h4 { font-size: 0.85rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .cross-card p { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; line-height: 1.35; }
+
+    /* Shoe Tracker */
+    .shoe-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 8px 0 4px;
+    }
+
+    .shoe-bar-fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+
+    /* Canvas Graph */
+    #trendChart {
+      width: 100%;
+      height: 180px;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+    }
+
     /* Bottom Navigation */
     .nav-bar {
       position: fixed;
@@ -388,6 +559,9 @@
 </head>
 <body>
 
+<!-- SILENT AUDIO LOOP TO PREVENT BACKGROUND SLEEP ON IOS SAFARI -->
+<audio id="silent-audio-loop" loop playsinline preload="auto" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA"></audio>
+
 <header>
   <div class="header-content">
     <div class="logo">
@@ -401,7 +575,7 @@
 
 <div class="container">
 
-  <!-- ================= VUE 1 : MON BILAN (SMART READINESS) ================= -->
+  <!-- ================= 1. MON BILAN & PLAN B CROSS-TRAINING ================= -->
   <section id="view-bilan" class="view-section active">
 
     <div class="readiness-banner green" id="readiness-card">
@@ -409,6 +583,34 @@
       <div class="readiness-title" id="readiness-title">Feu Vert : Course Autorisée</div>
       <div class="readiness-desc" id="readiness-desc">
         Votre dernière douleur matinale était de 1/10. Votre périoste est apte à encaisser les impacts modérés.
+      </div>
+    </div>
+
+    <!-- MODULE CARDIO SANS IMPACT (CROSS TRAINING) -->
+    <div class="card" style="border: 2px solid var(--purple-light);">
+      <div class="card-title" style="color: var(--purple);">
+        <span>🚴</span> Plan B : Cardio sans impact (Cross-Training)
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">
+        En cas de douleur au tibia ou de jour de repos imposé, remplacez la course sans perdre votre souffle :
+      </p>
+      <div class="cross-grid">
+        <div class="cross-card">
+          <h4>🚴 Vélo / Home-Trainer</h4>
+          <p><strong>45 min</strong> à 85-90 rpm souple. <em>Zéro impact osseux</em>, excellent pompage veineux du mollet.</p>
+        </div>
+        <div class="cross-card">
+          <h4>🏊 Natation (Pull-buoy)</h4>
+          <p><strong>30 à 40 min</strong> crawl avec pull-buoy pour soulager complètement la flexion de cheville.</p>
+        </div>
+        <div class="cross-card">
+          <h4>🚶 Marche rapide inclinée</h4>
+          <p><strong>30 min</strong> sur tapis à 5-8% de pente (attaque douce médio-pied sans freinage talon).</p>
+        </div>
+        <div class="cross-card">
+          <h4>🚣 Rameur doux</h4>
+          <p><strong>25 min</strong> d'endurance fondamentale avec sangle bien serrée sur le coup-de-pied.</p>
+        </div>
       </div>
     </div>
 
@@ -451,11 +653,98 @@
 
   </section>
 
-  <!-- ================= VUE 2 : EXERCICES (AVEC VRAIES IMAGES DE POSTURE) ================= -->
+  <!-- ================= 2. COMPRENDRE & GUIDE AUTO-MASSAGE ================= -->
+  <section id="view-comprendre" class="view-section">
+
+    <!-- GUIDE DES AUTO-MASSAGES : OÙ MASSER VS ZONE INTERDITE -->
+    <div class="card" style="border: 2px solid var(--amber-light);">
+      <div class="card-title">💆 Auto-Massage : Ce qu'il faut faire et NE PAS faire</div>
+      <p style="font-size: 0.83rem; color: var(--text-muted); margin-bottom: 12px;">
+        ⚠️ <strong>Erreur n°1 des coureurs :</strong> Masser ou poncer l'arête osseuse réactive immédiatement l'inflammation !
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; margin-bottom: 10px;">
+        <div style="padding: 10px; background: var(--coral-light); border-left: 4px solid var(--coral); border-radius: 8px; color: #9f1239;">
+          <strong>🔴 ZONE ROUGE INTERDITE :</strong> Ne pressez, ne massez et ne frottez JAMAIS directement la crête osseuse du tibia. Le périoste est une membrane fine et sensible, tout ponçage l'aggrave.
+        </div>
+        <div style="padding: 10px; background: var(--green-light); border-left: 4px solid var(--green); border-radius: 8px; color: #065f46;">
+          <strong>🟢 ZONE VERTE BÉNÉFIQUE :</strong> Massez le ventre musculaire mou à l'arrière du mollet (soléaire/gastrocnémiens) avec un rouleau de massage ou vos mains, et la voûte plantaire avec une balle de tennis.
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. VRAIE IRM CLINIQUE -->
+    <div class="card">
+      <div class="card-title">🔬 Imagerie Réelle : L'IRM du Tibia</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Voici à quoi ressemble une périostite tibiale sur une <strong>vraie IRM médicale (séquence coronale STIR avec suppression des graisses)</strong>. Touchez pour zoomer :
+      </p>
+
+      <div class="med-img-box" onclick="openModal('https://commons.wikimedia.org/wiki/Special:FilePath/Shinsplint-mri.jpg?width=1000', 'IRM Médicale : Périostite Tibiale (STIR)', 'Remarquez la ligne blanche lumineuse continue le long de la corticale interne du tibia : c\'est l\'œdème périosté causé par la traction myo-aponévrotique.', 'Aspect diffus typique d\'une périostite', 'À ne pas confondre avec un trait de fracture transversal')">
+        <span class="zoom-hint">🔍 Agrandir</span>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shinsplint-mri.jpg?width=500" alt="IRM Périostite Tibiale" class="med-img">
+        <div class="med-caption">
+          <strong>Figure 1 : IRM du bas de la jambe (Séquence STIR).</strong><br>
+          Signal hypersilencieux (blanc brillant) le long de la corticale interne : œdème inflammatoire du périoste.
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. VRAIE PLANCHE ANATOMIQUE DES MUSCLES DU MOLLET -->
+    <div class="card">
+      <div class="card-title">🦴 Anatomie Réelle : Le Muscle Soléaire</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Le véritable amortisseur de la foulée est le <strong>muscle soléaire profond</strong> qui s'insère directement sur l'arête tibiale :
+      </p>
+
+      <div class="med-img-box" style="background:#ffffff; border:1px solid #cbd5e1;" onclick="openModal('https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_b.png?width=1000', 'Anatomie du Soléaire (OpenStax)', 'Le soléaire est situé sous les gastrocnémiens. Il fléchit la cheville lorsque le genou est plié et encaisse jusqu\'à 8 fois le poids du corps lors de la course.', 'Travaillez-le toujours genou fléchi à 30-90°', 'Les mollets debout genou tendu ciblent les jumeaux, pas le soléaire')">
+        <span class="zoom-hint" style="background:rgba(2,132,199,0.85);">🔍 Agrandir</span>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_b.png?width=500" alt="Anatomie Soléaire et Mollet" class="med-img">
+        <div class="med-caption" style="color:#475569;">
+          <strong>Figure 2 : Planche anatomique médicale OpenStax.</strong><br>
+          Vue postérieure montrant le <em>Soleus muscle</em> (soléaire) et ses attaches profondes sur le tibia.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. VRAI OU FAUX CLINIQUES -->
+    <div class="card">
+      <div class="card-title">💡 Vrai / Faux (Appuyez pour révéler)</div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="border:1px solid var(--border); border-radius:10px; padding:12px; cursor:pointer;" onclick="this.querySelector('.ans').style.display = this.querySelector('.ans').style.display === 'block' ? 'none' : 'block'">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.85rem;">
+            <span>« Faut-il mettre de la glace ? »</span>
+            <span style="color:var(--amber);">Révéler ▼</span>
+          </div>
+          <div class="ans" style="display:none; font-size:0.8rem; color:var(--text-muted); margin-top:8px; border-top:1px dashed var(--border); padding-top:6px;">
+            La glace engourdit la douleur mais ralentit la vascularisation et la réparation osseuse. Utilisez-la uniquement en cas de crise aiguë pour soulager 10 minutes, jamais avant de courir.
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--border); border-radius:10px; padding:12px; cursor:pointer;" onclick="this.querySelector('.ans').style.display = this.querySelector('.ans').style.display === 'block' ? 'none' : 'block'">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.85rem;">
+            <span>« Courir sur l'herbe est toujours mieux ? »</span>
+            <span style="color:var(--amber);">Révéler ▼</span>
+          </div>
+          <div class="ans" style="display:none; font-size:0.8rem; color:var(--text-muted); margin-top:8px; border-top:1px dashed var(--border); padding-top:6px;">
+            Un sol trop meuble ou instable force les tendons (notamment le tibial postérieur) à travailler deux fois plus pour stabiliser le pied. Préférez des chemins en terre battue compacte ou du bitume plat en augmentant votre cadence.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= 3. EXERCICES (RENFORCEMENT & ZOOM PLEIN ÉCRAN) ================= -->
   <section id="view-exercices" class="view-section">
 
     <div class="card">
       <div class="card-title">💪 Renforcement Ciblé & Posture</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+        👉 <strong>Touchez une image</strong> pour l'agrandir en haute définition avec les consignes anatomiques complètes.
+      </p>
+      
       <div class="sub-tabs">
         <button class="sub-tab-btn active" onclick="switchExoPhase(1)">Phase 1 : Isométrie</button>
         <button class="sub-tab-btn" onclick="switchExoPhase(2)">Phase 2 : Force</button>
@@ -467,8 +756,30 @@
 
   </section>
 
-  <!-- ================= VUE 3 : ENTRAÎNEUR COURSE & PROTOCOLE ADAPTATIF ================= -->
+  <!-- ================= 4. REPRISE (ÉCHAUFFEMENT, DEBRIEF, ADAPTATION & SHOE TRACKER) ================= -->
   <section id="view-reprise" class="view-section">
+
+    <!-- ROUTINE D'ÉCHAUFFEMENT EXPRESS 3 MIN -->
+    <div class="card" style="border: 2px solid var(--teal-light);">
+      <div class="card-title" style="color: var(--teal);">
+        <span>🔥</span> Routine Pré-Course Express (3 minutes)
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">
+        Activez la vascularisation du soléaire avant le premier impact pour réduire les douleurs au démarrage.
+      </p>
+      
+      <div id="warmup-display" style="background:#f0fdfa; padding:12px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:0.85rem; font-weight:800; color:var(--teal);" id="warmup-step-title">Prêt pour l'échauffement</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);" id="warmup-step-desc">1 min talons au sol • 1 min marche talon/pointe • 1 min cercles 3D</div>
+        </div>
+        <div style="font-size:1.4rem; font-weight:900; color:var(--teal);" id="warmup-timer">03:00</div>
+      </div>
+
+      <button class="btn-action" id="btn-warmup-toggle" onclick="toggleWarmup()" style="width:100%; justify-content:center; background:var(--teal); padding:10px;">
+        ▶ Lancer l'échauffement vocal (3 min)
+      </button>
+    </div>
 
     <!-- QUESTIONNAIRE DEBRIEFING -->
     <div class="card" style="border: 2px solid var(--blue-light);">
@@ -509,14 +820,26 @@
       <div id="run-feedback-box" style="margin-top: 12px; display: none;"></div>
     </div>
 
-    <!-- BANNIÈRE D'ADAPTATION DU PROTOCOLE EN DIRECT -->
-    <div id="adaptive-rtr-banner" style="background:#fff; border:2px solid var(--teal); border-radius:var(--radius-lg); padding:14px; margin-bottom:14px; box-shadow:var(--shadow-sm);">
-      <!-- Injecté dynamiquement par evaluateAdaptiveProtocol() -->
+    <!-- SUIVI USURE CHAUSSURES (SHOE TRACKER) -->
+    <div class="card">
+      <div class="card-title">👟 Usure de mes Chaussures</div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+        <span style="font-size:0.85rem; font-weight:800;" id="shoe-name-label">Paire Actuelle</span>
+        <span style="font-size:0.8rem; font-weight:900; color:var(--teal);" id="shoe-km-label">0 / 650 km</span>
+      </div>
+      <div class="shoe-bar-bg"><div class="shoe-bar-fill" id="shoe-bar" style="width: 0%;"></div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); margin-top:6px;">
+        <span id="shoe-status-text">Mousse optimale</span>
+        <a href="javascript:void(0)" onclick="resetShoeTracker()" style="color:var(--blue); font-weight:700; text-decoration:none;">Changer de paire</a>
+      </div>
     </div>
 
-    <!-- LIVE RUN INTERVAL TRAINER WITH WAKELOCK -->
+    <!-- BANNIÈRE D'ADAPTATION DU PROTOCOLE EN DIRECT -->
+    <div id="adaptive-rtr-banner" style="background:#fff; border:2px solid var(--teal); border-radius:var(--radius-lg); padding:14px; margin-bottom:14px; box-shadow:var(--shadow-sm);"></div>
+
+    <!-- LIVE RUN INTERVAL TRAINER WITH WAKELOCK & SILENT BACKGROUND AUDIO -->
     <div class="trainer-card">
-      <span class="wakelock-status" id="wakelock-indicator">💡 Écran actif</span>
+      <span class="wakelock-status" id="wakelock-indicator">💡 Anti-veille & Audio poche</span>
       <div class="trainer-phase" id="live-phase">Prêt à courir</div>
       <div class="trainer-timer" id="live-timer">01:00</div>
       <div class="trainer-sub" id="live-interval">Intervalle 1 / 10</div>
@@ -550,72 +873,17 @@
 
   </section>
 
-  <!-- ================= VUE 4 : COMPRENDRE (AVEC VRAIES IMAGES MÉDICALES ET RADIOLOGIQUES) ================= -->
-  <section id="view-comprendre" class="view-section">
-
-    <!-- 1. VRAIE IRM CLINIQUE -->
-    <div class="card">
-      <div class="card-title">🔬 Imagerie Réelle : L'IRM du Tibia</div>
-      <p style="font-size: 0.85rem; color: var(--text-muted);">
-        Voici à quoi ressemble une périostite tibiale sur une <strong>vraie IRM médicale (séquence coronale STIR avec suppression des graisses)</strong> :
-      </p>
-
-      <div class="med-img-box">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shinsplint-mri.jpg?width=500" alt="IRM Périostite Tibiale" class="med-img">
-        <div class="med-caption">
-          <strong>Figure 1 : IRM du bas de la jambe (Séquence STIR).</strong><br>
-          Remarquez le <em>signal hypersilencieux (blanc brillant)</em> le long de la corticale interne du tibia : c'est l'œdème inflammatoire caractéristique de l'enveloppe osseuse (le périoste).
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. VRAIE PLANCHE ANATOMIQUE DES MUSCLES DU MOLLET -->
-    <div class="card">
-      <div class="card-title">🦴 Anatomie Réelle : Le Muscle Soléaire</div>
-      <p style="font-size: 0.85rem; color: var(--text-muted);">
-        Le véritable coupable n'est pas le mollet superficiel, mais le <strong>muscle soléaire profond</strong> qui s'insère directement sur l'os tibial :
-      </p>
-
-      <div class="med-img-box" style="background:#ffffff; border:1px solid #cbd5e1;">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_b.png?width=500" alt="Anatomie Soléaire et Mollet" class="med-img">
-        <div class="med-caption" style="color:#475569;">
-          <strong>Figure 2 : Planche anatomique médicale OpenStax.</strong><br>
-          Vue postérieure montrant le <em>Soleus muscle</em> (soléaire), moteur principal d'amortissement de la foulée qui tire sur le périoste lors de chaque appui au sol.
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. VRAI OU FAUX CLINIQUES -->
-    <div class="card">
-      <div class="card-title">💡 Vrai / Faux (Appuyez pour révéler)</div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="border:1px solid var(--border); border-radius:10px; padding:12px; cursor:pointer;" onclick="this.querySelector('.ans').style.display = this.querySelector('.ans').style.display === 'block' ? 'none' : 'block'">
-          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.85rem;">
-            <span>« Faut-il mettre de la glace ? »</span>
-            <span style="color:var(--amber);">Révéler ▼</span>
-          </div>
-          <div class="ans" style="display:none; font-size:0.8rem; color:var(--text-muted); margin-top:8px; border-top:1px dashed var(--border); padding-top:6px;">
-            La glace engourdit la douleur mais ralentit la vascularisation et la réparation osseuse. Utilisez-la uniquement en cas de crise aiguë pour soulager 10 minutes, jamais avant de courir.
-          </div>
-        </div>
-
-        <div style="border:1px solid var(--border); border-radius:10px; padding:12px; cursor:pointer;" onclick="this.querySelector('.ans').style.display = this.querySelector('.ans').style.display === 'block' ? 'none' : 'block'">
-          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.85rem;">
-            <span>« Courir sur l'herbe est toujours mieux ? »</span>
-            <span style="color:var(--amber);">Révéler ▼</span>
-          </div>
-          <div class="ans" style="display:none; font-size:0.8rem; color:var(--text-muted); margin-top:8px; border-top:1px dashed var(--border); padding-top:6px;">
-            Un sol trop meuble ou instable force les tendons (notamment le tibial postérieur) à travailler deux fois plus pour stabiliser le pied. Préférez des chemins en terre battue compacte ou du bitume plat en augmentant votre cadence.
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ================= VUE 5 : JOURNAL & EXPORT ================= -->
+  <!-- ================= 5. JOURNAL & GRAPHIQUE VISUEL ================= -->
   <section id="view-journal" class="view-section">
+
+    <!-- GRAPHIQUE VISUEL DE TENDANCE DES 14 DERNIERS JOURS -->
+    <div class="card">
+      <div class="card-title">📈 Évolution de la Douleur & Kilométrage</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">
+        🟢 Ligne = Douleur matinale (doit descendre) • 🟦 Barres = Km courus
+      </p>
+      <canvas id="trendChart" width="580" height="220"></canvas>
+    </div>
 
     <div class="card">
       <div class="card-title">📝 Relevé Matinal (Règle des 24h)</div>
@@ -658,11 +926,33 @@
 
 </div>
 
-<!-- BOTTOM BAR NAVIGATION -->
+<!-- MODAL / LIGHTBOX PLEIN ÉCRAN POUR TOUTES LES IMAGES -->
+<div id="image-modal" class="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close-btn" onclick="closeModal(event)">&times;</button>
+    <div class="modal-img-container">
+      <img id="modal-img" src="" alt="Démonstration agrandie" class="modal-img">
+    </div>
+    <div class="modal-body">
+      <div class="modal-title" id="modal-title">Titre de l'exercice</div>
+      <div class="modal-desc" id="modal-desc">Consignes détaillées du mouvement.</div>
+      <div class="cues-grid">
+        <div class="cue-do" id="modal-do">✓ Consigne clé</div>
+        <div class="cue-dont" id="modal-dont">✗ Erreur à éviter</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR NAVIGATION (BILAN > COMPRENDRE > EXERCICES > REPRISE > JOURNAL) -->
 <nav class="nav-bar">
   <button class="nav-btn active" onclick="navigate('bilan')">
     <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
     <span>Mon Bilan</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('comprendre')">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+    <span>Comprendre</span>
   </button>
   <button class="nav-btn" onclick="navigate('exercices')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -672,10 +962,6 @@
     <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
     <span>Reprise</span>
   </button>
-  <button class="nav-btn" onclick="navigate('comprendre')">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-    <span>Comprendre</span>
-  </button>
   <button class="nav-btn" onclick="navigate('journal')">
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line></svg>
     <span>Journal</span>
@@ -683,6 +969,36 @@
 </nav>
 
 <script>
+  /* LIGHTBOX / MODAL SYSTEM */
+  function openModal(imgSrc, title, desc, cueDo, cueDont) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalDo = document.getElementById('modal-do');
+    const modalDont = document.getElementById('modal-dont');
+
+    modalImg.src = imgSrc;
+    modalTitle.textContent = title;
+    modalDesc.textContent = desc;
+    modalDo.textContent = cueDo || "✓ Maintenir une exécution contrôlée et sans à-coups";
+    modalDont.textContent = cueDont || "✗ Ne jamais forcer au-delà du seuil douloureux";
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e) {
+    if (e) e.stopPropagation();
+    const modal = document.getElementById('image-modal');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
   /* NAVIGATION SYSTEM */
   function navigate(viewId) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -690,11 +1006,15 @@
     
     document.getElementById(`view-${viewId}`).classList.add('active');
     
-    const tabs = ['bilan', 'exercices', 'reprise', 'comprendre', 'journal'];
+    const tabs = ['bilan', 'comprendre', 'exercices', 'reprise', 'journal'];
     const idx = tabs.indexOf(viewId);
     if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (viewId === 'journal') {
+      setTimeout(drawTrendChart, 100);
+    }
   }
 
   /* SPEECH SYNTHESIS & VOICE COACH */
@@ -708,24 +1028,34 @@
     }
   }
 
-  /* SCREEN WAKE LOCK API */
+  /* SCREEN WAKE LOCK & SILENT AUDIO LOOP FOR IOS DEEP SLEEP */
   let wakeLock = null;
-  async function requestWakeLock() {
+  const silentAudio = document.getElementById('silent-audio-loop');
+
+  async function startBackgroundKeepAlive() {
     try {
       if ('wakeLock' in navigator) {
         wakeLock = await navigator.wakeLock.request('screen');
-        document.getElementById('wakelock-indicator').textContent = "💡 Anti-veille actif";
       }
     } catch (err) {
-      console.log("WakeLock non disponible :", err);
+      console.log("WakeLock non supporté ou bloqué :", err);
     }
+    // Lancement du flux audio muet pour empêcher iOS d'endormir le JS en poche
+    if (silentAudio) {
+      silentAudio.play().catch(() => {});
+    }
+    document.getElementById('wakelock-indicator').textContent = "💡 Actif en poche (Audio ON)";
   }
 
-  function releaseWakeLock() {
+  function stopBackgroundKeepAlive() {
     if (wakeLock !== null) {
       wakeLock.release();
       wakeLock = null;
     }
+    if (silentAudio) {
+      silentAudio.pause();
+    }
+    document.getElementById('wakelock-indicator').textContent = "💡 Prêt";
   }
 
   /* WEIGHT & LOAD CALCULATOR */
@@ -745,7 +1075,7 @@
     updateWeight(w);
   }
 
-  /* EXERCISE DATABASE WITH REAL PHOTO / DIAGRAM ASSETS */
+  /* EXERCISE DATABASE */
   const exoData = {
     1: [
       {
@@ -756,7 +1086,7 @@
         img: "https://commons.wikimedia.org/wiki/Special:FilePath/Seated-calf-raise-2-2.gif",
         timer: 45,
         desc: "Assis à 90°, pieds à plat. Posez un poids lourd sur le bas des cuisses. Décollez les talons de 3 cm et bloquez fermement sans bouger.",
-        cues: { do: "✓ Charge lourde (15-20 kg)", dont: "✗ Ne pas monter sur le bout des orteils" }
+        cues: { do: "✓ Charge lourde (15-20 kg) sur cuisses", dont: "✗ Ne pas monter sur le bout des orteils" }
       },
       {
         id: "p1_tib_post",
@@ -765,7 +1095,7 @@
         meta: "4 séries x 30s de compression",
         img: "https://commons.wikimedia.org/wiki/Special:FilePath/Calf-raises-1.png",
         timer: 30,
-        desc: "Debout pieds nus, pressez fort une balle de tennis entre vos deux talons et montez de 2 cm sur demi-pointes.",
+        desc: "Debout pieds nus, pressez fort une balle de tennis entre vos deux talons et montez de 2 cm sur demi-pointes sans relâcher la pression.",
         cues: { do: "✓ Serrer fermement vers l'intérieur", dont: "✗ Ne pas laisser les chevilles partir vers l'extérieur" }
       },
       {
@@ -773,7 +1103,7 @@
         title: "Pied Court de Janda (Short Foot)",
         tag: "Voûte",
         meta: "3 séries x 10 contractions de 5s",
-        img: "https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_a.png?width=250",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_a.png?width=500",
         timer: 30,
         desc: "Pied à plat au sol sans recroqueviller les orteils, ramenez la base du gros orteil vers le talon pour creuser la voûte plantaire.",
         cues: { do: "✓ Orteils allongés et détendus", dont: "✗ Interdit de griffer le sol avec les orteils" }
@@ -795,7 +1125,7 @@
         title: "Tibialis Raises (Dos au mur)",
         tag: "Tibial Ant.",
         meta: "3 séries x 20 répétitions",
-        img: "https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_a.png?width=250",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_a.png?width=500",
         timer: 45,
         desc: "Adossé contre un mur, talons à 40 cm en avant. Levez les orteils vers le ciel au maximum, marquez 1s en haut, puis reposez.",
         cues: { do: "✓ Amplitude maximale vers le haut", dont: "✗ Ne pas plier les genoux" }
@@ -847,7 +1177,7 @@
 
     let left = sec;
     speak(`C'est parti pour ${sec} secondes`);
-    requestWakeLock();
+    startBackgroundKeepAlive();
 
     const int = setInterval(() => {
       left--;
@@ -862,7 +1192,7 @@
         clearInterval(int);
         delete activeExoTimers[id];
         speak("Série terminée ! Prenez votre repos.");
-        releaseWakeLock();
+        stopBackgroundKeepAlive();
         renderExos();
       }
     }, 1000);
@@ -880,6 +1210,11 @@
       const isDone = !!stored[item.id];
       const isRunning = !!activeExoTimers[item.id];
 
+      const safeTitle = item.title.replace(/'/g, "\\'");
+      const safeDesc = item.desc.replace(/'/g, "\\'");
+      const safeDo = item.cues.do.replace(/'/g, "\\'");
+      const safeDont = item.cues.dont.replace(/'/g, "\\'");
+
       return `
         <div class="exo-item ${isDone ? 'done' : ''}">
           <div class="exo-top">
@@ -891,9 +1226,17 @@
           </div>
 
           <div class="exo-visual-row">
-            <img src="${item.img}" alt="${item.title}" class="exo-thumb">
-            <div style="font-size:0.82rem; color:var(--text); line-height:1.4;">
+            <div class="exo-thumb-wrapper" onclick="openModal('${item.img}', '${safeTitle}', '${safeDesc}', '${safeDo}', '${safeDont}')">
+              <img src="${item.img}" alt="${item.title}" class="exo-thumb">
+              <span class="exo-thumb-badge">🔍 Zoom</span>
+            </div>
+            <div style="font-size:0.82rem; color:var(--text); line-height:1.4; flex-grow:1;">
               ${item.desc}
+              <div style="margin-top:4px;">
+                <a href="javascript:void(0)" onclick="openModal('${item.img}', '${safeTitle}', '${safeDesc}', '${safeDo}', '${safeDont}')" style="font-size:0.75rem; font-weight:800; color:var(--blue); text-decoration:none;">
+                  👉 Voir en grand écran
+                </a>
+              </div>
             </div>
           </div>
 
@@ -916,6 +1259,103 @@
         </div>
       `;
     }).join('');
+  }
+
+  /* 3-MINUTE EXPRESS WARMUP SYSTEM */
+  let warmupRunning = false;
+  let warmupInterval = null;
+  let warmupSec = 180;
+
+  function toggleWarmup() {
+    const btn = document.getElementById('btn-warmup-toggle');
+    if (warmupRunning) {
+      clearInterval(warmupInterval);
+      warmupRunning = false;
+      stopBackgroundKeepAlive();
+      btn.textContent = "▶ Reprendre l'échauffement";
+    } else {
+      warmupRunning = true;
+      startBackgroundKeepAlive();
+      btn.textContent = "⏸ Pause échauffement";
+      speak("Début de l'échauffement : une minute de montées de talons douces bilatérales au sol.");
+      warmupInterval = setInterval(warmupTick, 1000);
+    }
+  }
+
+  function warmupTick() {
+    warmupSec--;
+    const titleEl = document.getElementById('warmup-step-title');
+    const descEl = document.getElementById('warmup-step-desc');
+    const timerEl = document.getElementById('warmup-timer');
+
+    if (warmupSec === 120) {
+      titleEl.textContent = "Étape 2 : Marche talons & pointes";
+      descEl.textContent = "Alternez 10s en marchant sur les talons et 10s sur demi-pointes.";
+      speak("Passez à la marche alternée : dix secondes sur les talons, dix secondes sur les pointes.");
+    } else if (warmupSec === 60) {
+      titleEl.textContent = "Étape 3 : Mobilisation 3D des chevilles";
+      descEl.textContent = "Grands cercles lents et souples avec chaque cheville en l'air.";
+      speak("Dernière minute : cercles amples et lents des chevilles pour lubrifier l'articulation.");
+    }
+
+    if (warmupSec <= 0) {
+      clearInterval(warmupInterval);
+      warmupRunning = false;
+      stopBackgroundKeepAlive();
+      titleEl.textContent = "Échauffement validé ! 🔥";
+      descEl.textContent = "Vos soléaires sont vascularisés et prêts pour la séance.";
+      timerEl.textContent = "00:00";
+      speak("Échauffement terminé ! Vous pouvez lancer votre séance de course.");
+      document.getElementById('btn-warmup-toggle').textContent = "✓ Échauffement fait";
+      return;
+    }
+
+    const m = Math.floor(warmupSec / 60);
+    const s = warmupSec % 60;
+    timerEl.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+
+  /* SHOE TRACKER SYSTEM */
+  function getShoeData() {
+    try {
+      return JSON.parse(localStorage.getItem('tc_shoes') || '{"name":"Paire Principale","km":0,"max":650}');
+    } catch {
+      return { name: "Paire Principale", km: 0, max: 650 };
+    }
+  }
+
+  function saveShoeData(data) {
+    localStorage.setItem('tc_shoes', JSON.stringify(data));
+    renderShoeTracker();
+  }
+
+  function renderShoeTracker() {
+    const data = getShoeData();
+    document.getElementById('shoe-name-label').textContent = data.name;
+    document.getElementById('shoe-km-label').textContent = `${Math.round(data.km)} / ${data.max} km`;
+
+    const pct = Math.min(100, Math.round((data.km / data.max) * 100));
+    const bar = document.getElementById('shoe-bar');
+    bar.style.width = `${pct}%`;
+
+    const status = document.getElementById('shoe-status-text');
+    if (pct < 60) {
+      bar.style.background = "var(--teal)";
+      status.textContent = "Mousse optimale (amorti préservé)";
+    } else if (pct < 85) {
+      bar.style.background = "var(--amber)";
+      status.textContent = "Usure modérée (surveiller le tassement)";
+    } else {
+      bar.style.background = "var(--coral)";
+      status.textContent = "⚠️ Mousse tassée : risque accru de vibrations dans l'os";
+    }
+  }
+
+  function resetShoeTracker() {
+    const name = prompt("Nom de votre nouvelle paire de running :", "Nouvelle paire");
+    if (!name) return;
+    const max = parseInt(prompt("Kilométrage maximal conseillé :", "650")) || 650;
+    saveShoeData({ name, km: 0, max });
   }
 
   /* PROTOCOLE RETURN-TO-RUN & ADAPTATION DYNAMIQUE */
@@ -1059,7 +1499,7 @@
 
   function saveRunDebrief() {
     const dateInput = document.getElementById('run-date').value || new Date().toISOString().slice(0, 10);
-    const kmInput = document.getElementById('run-km').value || "0";
+    const kmInput = parseFloat(document.getElementById('run-km').value) || 0;
     const chronoInput = document.getElementById('run-chrono').value.trim() || "--:--";
     const painInput = parseInt(document.getElementById('run-pain').value);
 
@@ -1071,7 +1511,7 @@
 
     if (painInput <= 2) {
       styleClass = "var(--green-light); color:#065f46; border:1px solid var(--green);";
-      verdict = "<strong>🟢 Séance validée !</strong> Périoste stable pendant l'effort. Si votre réveil de demain matin reste indolore (≤ 2/10), l'étape supérieure sera définitivement confirmée.";
+      verdict = "<strong>🟢 Séance validée !</strong> Périoste stable pendant l'effort. Si votre réveil de demain matin reste indolore (≤ 2/10), l'étape supérieure sera confirmée.";
     } else if (painInput <= 4) {
       styleClass = "var(--amber-light); color:#92400e; border:1px solid var(--amber);";
       verdict = "<strong>🟡 Seuil de tolérance limite.</strong> Restez sur cette étape lors de votre prochaine sortie pour consolider l'os.";
@@ -1085,10 +1525,18 @@
 
     const hist = getRunHistory();
     hist.unshift({ date: dateInput, km: kmInput, chrono: chronoInput, pain: painInput });
-    localStorage.setItem('tc_run_debriefs', JSON.stringify(hist.slice(0, 8)));
+    localStorage.setItem('tc_run_debriefs', JSON.stringify(hist.slice(0, 14)));
+
+    // Incrémente les chaussures
+    if (kmInput > 0) {
+      const shoes = getShoeData();
+      shoes.km += kmInput;
+      saveShoeData(shoes);
+    }
 
     renderAdaptiveProtocol();
     updateReadinessDashboard();
+    drawTrendChart();
   }
 
   /* READINESS DASHBOARD */
@@ -1111,16 +1559,16 @@
       card.classList.add('orange');
       tag.textContent = "Feu Orange — Prudence";
       title.textContent = `Douleur matinale : ${morningPain} / 10`;
-      desc.textContent = "Seuil d'alerte atteint. Ne montez pas d'étape aujourd'hui. Répétez votre palier ou privilégiez 30 min de vélo.";
+      desc.textContent = "Seuil d'alerte atteint. Ne montez pas d'étape aujourd'hui. Répétez votre palier ou privilégiez le vélo/natation.";
     } else {
       card.classList.add('red');
       tag.textContent = "Feu Rouge — Course Déconseillée";
       title.textContent = `Douleur matinale : ${morningPain} / 10`;
-      desc.textContent = "Surcharge osseuse active. 48h de repos d'impact obligatoires. Faites de l'isométrie assise.";
+      desc.textContent = "Surcharge osseuse active. 48h de repos d'impact obligatoires. Faites de l'isométrie assise ou du vélo doux.";
     }
   }
 
-  /* LIVE VOICE RUN INTERVAL TRAINER */
+  /* LIVE VOICE RUN INTERVAL TRAINER WITH WAKELOCK & SILENT BACKGROUND LOOP */
   let trainerRunning = false;
   let trainerInterval = null;
   let trainerPhase = 'run';
@@ -1130,7 +1578,7 @@
   function resetRunTrainer() {
     clearInterval(trainerInterval);
     trainerRunning = false;
-    releaseWakeLock();
+    stopBackgroundKeepAlive();
     const stepNum = parseInt(localStorage.getItem('tc_rtr_step') || '1');
     const config = rtrStages[stepNum - 1];
 
@@ -1147,7 +1595,7 @@
   function toggleRunTrainer() {
     const latestPain = getLatestPain();
     if (latestPain >= 5 && !trainerRunning) {
-      if (!confirm("Attention : Votre douleur matinale était de " + latestPain + "/10. Médicalement, la course est déconseillée aujourd'hui. Voulez-vous quand même forcer le démarrage ?")) {
+      if (!confirm("Attention : Votre douleur matinale était de " + latestPain + "/10. Médicalement, la course est déconseillée aujourd'hui. Voulez-vous forcer le démarrage ?")) {
         return;
       }
     }
@@ -1155,12 +1603,12 @@
     if (trainerRunning) {
       clearInterval(trainerInterval);
       trainerRunning = false;
-      releaseWakeLock();
+      stopBackgroundKeepAlive();
       speak("Séance en pause");
       document.getElementById('btn-trainer-toggle').textContent = "▶ Reprendre";
     } else {
       trainerRunning = true;
-      requestWakeLock();
+      startBackgroundKeepAlive();
       speak("C'est parti ! Courez à allure très douce en faisant de petits pas rapides.");
       document.getElementById('btn-trainer-toggle').textContent = "⏸ Pause";
       trainerInterval = setInterval(trainerTick, 1000);
@@ -1187,7 +1635,7 @@
         if (trainerRep > config.reps) {
           clearInterval(trainerInterval);
           trainerRunning = false;
-          releaseWakeLock();
+          stopBackgroundKeepAlive();
           document.getElementById('live-phase').textContent = "Séance terminée ! 🎉";
           document.getElementById('live-timer').textContent = "00:00";
           speak("Félicitations ! Séance terminée. Renseignez votre bilan juste au-dessus.");
@@ -1273,12 +1721,13 @@
 
     const hist = getPainHistory();
     hist.unshift({ date, pain, note });
-    localStorage.setItem('tc_pain_history', JSON.stringify(hist.slice(0, 10)));
+    localStorage.setItem('tc_pain_history', JSON.stringify(hist.slice(0, 14)));
 
     document.getElementById('input-note').value = "";
     renderPainHistory();
     renderAdaptiveProtocol();
     updateReadinessDashboard();
+    drawTrendChart();
   }
 
   function renderPainHistory() {
@@ -1303,6 +1752,93 @@
       `).join('');
   }
 
+  /* 14-DAY TREND CHART (CANVAS RENDERING) */
+  function drawTrendChart() {
+    const canvas = document.getElementById('trendChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const painData = getPainHistory().slice(0, 10).reverse();
+    const runData = getRunHistory().slice(0, 10).reverse();
+
+    if (painData.length === 0 && runData.length === 0) {
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Enregistrez vos premières séances pour tracer le graphique.", width / 2, height / 2);
+      return;
+    }
+
+    // Grid lines
+    ctx.strokeStyle = "#f1f5f9";
+    ctx.lineWidth = 1;
+    for (let y = 30; y < height - 30; y += 35) {
+      ctx.beginPath();
+      ctx.moveTo(35, y);
+      ctx.lineTo(width - 20, y);
+      ctx.stroke();
+    }
+
+    // Y Axis Labels
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText("10/10", 30, 35);
+    ctx.fillText("5/10", 30, 105);
+    ctx.fillText("0/10", 30, 175);
+
+    const count = Math.max(painData.length, runData.length);
+    const stepX = (width - 65) / Math.max(1, count - 1);
+
+    // Draw Bars for KM run
+    runData.forEach((r, idx) => {
+      const x = 45 + idx * stepX;
+      const barHeight = Math.min(100, (parseFloat(r.km) || 0) * 12);
+      ctx.fillStyle = "rgba(2, 132, 199, 0.25)";
+      ctx.fillRect(x - 8, height - 35 - barHeight, 16, barHeight);
+      ctx.fillStyle = "#0284c7";
+      ctx.font = "9px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(`${r.km}k`, x, height - 38 - barHeight);
+    });
+
+    // Draw Line for Morning Pain
+    if (painData.length > 0) {
+      ctx.beginPath();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "#10b981";
+
+      painData.forEach((p, idx) => {
+        const x = 45 + idx * stepX;
+        const val = Math.min(10, Math.max(0, parseInt(p.pain) || 0));
+        const y = (height - 35) - (val / 10) * 140;
+
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // Dots on points
+      painData.forEach((p, idx) => {
+        const x = 45 + idx * stepX;
+        const val = Math.min(10, Math.max(0, parseInt(p.pain) || 0));
+        const y = (height - 35) - (val / 10) * 140;
+
+        ctx.beginPath();
+        ctx.arc(x, y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = val > 4 ? "#f43f5e" : (val > 2 ? "#f59e0b" : "#10b981");
+        ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      });
+    }
+  }
+
   /* EXPORT / IMPORT TO JSON */
   function exportData() {
     const backup = {
@@ -1310,6 +1846,7 @@
       rtr_step: localStorage.getItem('tc_rtr_step'),
       pain_history: localStorage.getItem('tc_pain_history'),
       run_debriefs: localStorage.getItem('tc_run_debriefs'),
+      shoes: localStorage.getItem('tc_shoes'),
       exos: localStorage.getItem('tc_exos')
     };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
@@ -1329,6 +1866,7 @@
       if (data.rtr_step) localStorage.setItem('tc_rtr_step', data.rtr_step);
       if (data.pain_history) localStorage.setItem('tc_pain_history', data.pain_history);
       if (data.run_debriefs) localStorage.setItem('tc_run_debriefs', data.run_debriefs);
+      if (data.shoes) localStorage.setItem('tc_shoes', data.shoes);
       if (data.exos) localStorage.setItem('tc_exos', data.exos);
       alert("Données restaurées avec succès !");
       location.reload();
@@ -1343,6 +1881,7 @@
   renderAdaptiveProtocol();
   resetRunTrainer();
   renderPainHistory();
+  renderShoeTracker();
   updateReadinessDashboard();
 
   document.getElementById('run-date').value = new Date().toISOString().slice(0, 10);
