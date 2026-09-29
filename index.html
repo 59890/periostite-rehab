@@ -431,8 +431,48 @@
 
   </section>
 
-  <!-- ================= VUE 3 : ENTRAÎNEUR COURSE (AVEC COACH VOCAL & ANTI-VEILLE) ================= -->
+  <!-- ================= VUE 3 : ENTRAÎNEUR COURSE (AVEC QUESTIONNAIRE DERNIÈRE SORTIE) ================= -->
   <section id="view-reprise" class="view-section">
+
+    <!-- QUESTIONNAIRE DERNIÈRE SORTIE -->
+    <div class="card" style="border: 2px solid var(--blue-light);">
+      <div class="card-title">📋 Bilan de ma dernière sortie</div>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+        Indiquez vos sensations de course pour savoir si votre périoste a bien toléré la séance ou s'il faut adapter l'allure.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+        <div>
+          <label style="font-size: 0.78rem; font-weight: 800; color: var(--text);">Date de la séance :</label>
+          <input type="date" id="run-date" style="width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.82rem; margin-top: 4px;">
+        </div>
+        <div>
+          <label style="font-size: 0.78rem; font-weight: 800; color: var(--text);">Distance (km) :</label>
+          <input type="number" step="0.1" id="run-km" placeholder="Ex: 3.5" style="width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.82rem; margin-top: 4px;">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+        <div>
+          <label style="font-size: 0.78rem; font-weight: 800; color: var(--text);">Chrono / Durée :</label>
+          <input type="text" id="run-chrono" placeholder="Ex: 22:45" style="width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.82rem; margin-top: 4px;">
+        </div>
+        <div>
+          <label style="font-size: 0.78rem; font-weight: 800; color: var(--text);">Douleur pendant l'effort :</label>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+            <input type="range" min="0" max="10" value="1" id="run-pain" style="flex-grow: 1; accent-color: var(--blue);" oninput="document.getElementById('run-pain-val').textContent = this.value">
+            <span style="font-weight: 900; font-size: 1rem; width: 28px;" id="run-pain-val">1</span>/10
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-action" onclick="saveRunDebrief()" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.85rem;">
+        💾 Enregistrer le bilan de la séance
+      </button>
+
+      <div id="run-feedback-box" style="margin-top: 12px; display: none;"></div>
+      <div id="run-history-list" style="margin-top: 14px;"></div>
+    </div>
 
     <!-- LIVE RUN INTERVAL TRAINER WITH WAKELOCK -->
     <div class="trainer-card">
@@ -592,7 +632,7 @@
     }
   }
 
-  /* SCREEN WAKE LOCK API (Prevents screen from turning off on iPhone iOS 16.4+) */
+  /* SCREEN WAKE LOCK API */
   let wakeLock = null;
   async function requestWakeLock() {
     try {
@@ -629,7 +669,7 @@
     updateWeight(w);
   }
 
-  /* EXERCISE DATABASE WITH POSTURE CUES */
+  /* EXERCISE DATABASE */
   const exoData = {
     1: [
       {
@@ -824,7 +864,67 @@
     }).join('');
   }
 
-  /* RETURN TO RUN PROTOCOL WITH INTELLIGENT READINESS GATE */
+  /* QUESTIONNAIRE DERNIÈRE SORTIE & ANALYSE CLINIQUE */
+  function getRunHistory() {
+    try { return JSON.parse(localStorage.getItem('tc_run_debriefs') || '[]'); } catch { return []; }
+  }
+
+  function saveRunDebrief() {
+    const dateInput = document.getElementById('run-date').value || new Date().toISOString().slice(0, 10);
+    const kmInput = document.getElementById('run-km').value || "0";
+    const chronoInput = document.getElementById('run-chrono').value.trim() || "--:--";
+    const painInput = parseInt(document.getElementById('run-pain').value);
+
+    const feedbackBox = document.getElementById('run-feedback-box');
+    feedbackBox.style.display = 'block';
+
+    let verdict = "";
+    let styleClass = "";
+
+    if (painInput <= 2) {
+      styleClass = "var(--green-light); color:#065f46; border:1px solid var(--green);";
+      verdict = "<strong>🟢 Séance validée avec succès !</strong> Votre périoste a parfaitement encaissé la charge. Si votre douleur reste ≤ 2/10 demain matin au réveil, vous pourrez valider votre étape.";
+    } else if (painInput <= 4) {
+      styleClass = "var(--amber-light); color:#92400e; border:1px solid var(--amber);";
+      verdict = "<strong>🟡 Seuil de tolérance limite.</strong> La charge était un peu haute. Ne montez pas d'étape lors de votre prochaine sortie : réitérez exactement ce palier pour consolider l'os.";
+    } else {
+      styleClass = "var(--coral-light); color:#9f1239; border:1px solid var(--coral);";
+      verdict = "<strong>🔴 Surcharge mécanique constatée.</strong> Douleur trop vive pendant la course. Observez 48h de repos d'impact, faites de l'isométrie assise et revenez au palier inférieur à la reprise.";
+    }
+
+    feedbackBox.style.cssText = `background:${styleClass} padding:10px 12px; border-radius:10px; font-size:0.83rem; line-height:1.4; margin-top:10px;`;
+    feedbackBox.innerHTML = verdict;
+
+    const hist = getRunHistory();
+    hist.unshift({ date: dateInput, km: kmInput, chrono: chronoInput, pain: painInput });
+    localStorage.setItem('tc_run_debriefs', JSON.stringify(hist.slice(0, 6)));
+
+    renderRunHistory();
+  }
+
+  function renderRunHistory() {
+    const hist = getRunHistory();
+    const container = document.getElementById('run-history-list');
+
+    if (!hist.length) {
+      container.innerHTML = `<p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">Aucune sortie renseignée.</p>`;
+      return;
+    }
+
+    container.innerHTML = `<div style="font-size:0.82rem; font-weight:900; margin-bottom:6px;">Dernières séances enregistrées :</div>` +
+      hist.map(r => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-bottom:1px solid var(--border); font-size:0.8rem;">
+          <div>
+            <strong>${r.date}</strong> : ${r.km} km en ${r.chrono}
+          </div>
+          <span style="font-weight:900; padding:2px 8px; border-radius:10px; background:${r.pain > 4 ? 'var(--coral-light)' : (r.pain > 2 ? 'var(--amber-light)' : 'var(--green-light)')}; color:${r.pain > 4 ? 'var(--coral)' : (r.pain > 2 ? '#b45309' : 'var(--green)')};">
+            ${r.pain}/10
+          </span>
+        </div>
+      `).join('');
+  }
+
+  /* RETURN TO RUN PROTOCOL */
   const rtrStages = [
     { s: 1, runSec: 60, walkSec: 60, reps: 10, title: "Étape 1 : 10x (1 min course / 1 min marche)", total: "20 min" },
     { s: 2, runSec: 120, walkSec: 60, reps: 7, title: "Étape 2 : 7x (2 min course / 1 min marche)", total: "21 min" },
@@ -968,7 +1068,7 @@
           releaseWakeLock();
           document.getElementById('live-phase').textContent = "Séance terminée ! 🎉";
           document.getElementById('live-timer').textContent = "00:00";
-          speak("Félicitations ! Séance terminée. Pensez à noter votre douleur demain matin au réveil.");
+          speak("Félicitations ! Séance terminée. Renseignez votre questionnaire juste au-dessus.");
           return;
         }
         trainerPhase = 'run';
@@ -1087,6 +1187,7 @@
       weight: localStorage.getItem('tc_user_weight'),
       rtr_step: localStorage.getItem('tc_rtr_step'),
       pain_history: localStorage.getItem('tc_pain_history'),
+      run_debriefs: localStorage.getItem('tc_run_debriefs'),
       exos: localStorage.getItem('tc_exos')
     };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
@@ -1105,6 +1206,7 @@
       if (data.weight) localStorage.setItem('tc_user_weight', data.weight);
       if (data.rtr_step) localStorage.setItem('tc_rtr_step', data.rtr_step);
       if (data.pain_history) localStorage.setItem('tc_pain_history', data.pain_history);
+      if (data.run_debriefs) localStorage.setItem('tc_run_debriefs', data.run_debriefs);
       if (data.exos) localStorage.setItem('tc_exos', data.exos);
       alert("Données restaurées avec succès !");
       location.reload();
@@ -1119,7 +1221,11 @@
   renderRTR();
   resetRunTrainer();
   renderPainHistory();
+  renderRunHistory();
   updateReadinessDashboard();
+
+  // Set default date input to today
+  document.getElementById('run-date').value = new Date().toISOString().slice(0, 10);
 </script>
 
 </body>
