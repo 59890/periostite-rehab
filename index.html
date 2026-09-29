@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Rehab Périostite — Guide & Réathlétisation</title>
+  <title>TibialCare — Périostite & Réathlétisation</title>
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Rehab Tibia">
-  <meta name="theme-color" content="#0d9488">
+  <meta name="apple-mobile-web-app-title" content="TibialCare">
+  <meta name="theme-color" content="#0f766e">
 
   <style>
     :root {
@@ -17,19 +17,28 @@
       --border: #e2e8f0;
       --text: #0f172a;
       --text-muted: #64748b;
-      --teal: #0d9488;
+      --text-light: #94a3b8;
+      
+      --teal: #0f766e;
       --teal-light: #f0fdfa;
       --teal-border: #99f6e4;
+      --teal-dark: #115e59;
+      
       --blue: #0284c7;
       --blue-light: #f0f9ff;
       --amber: #d97706;
       --amber-light: #fffbeb;
+      --amber-border: #fde68a;
       --red: #e11d48;
       --red-light: #fff1f2;
       --green: #10b981;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.06);
+      --green-light: #ecfdf5;
+
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, 0.07);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -39,88 +48,62 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding-bottom: 90px;
+      padding-bottom: 95px;
     }
 
-    .container { max-width: 640px; margin: 0 auto; padding: 16px 14px; }
+    .container { max-width: 650px; margin: 0 auto; padding: 16px 14px; }
 
-    /* Header */
+    /* Top Bar */
     header {
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 16px 14px;
+      padding: 14px 16px;
       position: sticky;
       top: 0;
-      z-index: 40;
+      z-index: 50;
     }
 
     .header-content {
-      max-width: 640px;
+      max-width: 650px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .logo-title {
+    .logo {
       font-size: 1.25rem;
       font-weight: 800;
       color: var(--teal);
+      letter-spacing: -0.02em;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .badge-sub {
-      font-size: 0.72rem;
+    .badge-evidence {
+      font-size: 0.7rem;
       font-weight: 700;
       background: var(--teal-light);
-      color: var(--teal);
-      padding: 3px 8px;
+      color: var(--teal-dark);
+      padding: 4px 10px;
       border-radius: 20px;
       border: 1px solid var(--teal-border);
-    }
-
-    /* Navigation Bar */
-    .nav-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #ffffff;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 6px;
-      z-index: 50;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
-    }
-
-    .nav-item {
-      background: transparent;
-      border: none;
-      display: flex;
-      flex-direction: column;
+      display: inline-flex;
       align-items: center;
-      gap: 3px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      cursor: pointer;
-      width: 20%;
+      gap: 4px;
     }
-
-    .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
-    .nav-item.active { color: var(--teal); }
 
     /* Cards */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
       padding: 18px 16px;
       margin-bottom: 16px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-md);
     }
 
     .card-title {
@@ -131,72 +114,87 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 12px;
+      letter-spacing: -0.01em;
     }
 
-    /* Warning boxes */
+    /* Medical Illustrations Box */
+    .illustration-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin: 14px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .illustration-box svg {
+      width: 100%;
+      height: auto;
+      max-height: 240px;
+    }
+
+    .illustration-legend {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Alert Banners */
     .alert {
       padding: 12px 14px;
       border-radius: var(--radius-md);
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       margin-bottom: 14px;
       display: flex;
       gap: 10px;
       line-height: 1.45;
     }
 
-    .alert-amber { background: var(--amber-light); border: 1px solid #fde68a; color: #92400e; }
+    .alert-teal { background: var(--teal-light); border: 1px solid var(--teal-border); color: var(--teal-dark); }
+    .alert-amber { background: var(--amber-light); border: 1px solid var(--amber-border); color: #92400e; }
     .alert-red { background: var(--red-light); border: 1px solid #fecdd3; color: #9f1239; }
-    .alert-teal { background: var(--teal-light); border: 1px solid var(--teal-border); color: #115e59; }
 
-    /* SVG Illustration Container */
-    .illustration-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 12px 0 16px;
-      overflow: hidden;
-    }
-
-    .illustration-box svg { max-width: 100%; height: auto; }
-
-    /* Tabs */
+    /* Interactive Tabs inside views */
     .sub-tabs {
       display: flex;
       gap: 8px;
       margin-bottom: 14px;
       overflow-x: auto;
       padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
     }
 
     .sub-tab-btn {
       background: #ffffff;
       border: 1.5px solid var(--border);
-      border-radius: 20px;
-      padding: 6px 14px;
+      border-radius: 30px;
+      padding: 7px 14px;
       font-size: 0.78rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .sub-tab-btn.active {
       background: var(--teal);
       border-color: var(--teal);
       color: #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
     }
 
     /* Exercise item */
     .exo-item {
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       padding: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       background: #ffffff;
       transition: all 0.2s;
     }
@@ -220,12 +218,12 @@
     }
 
     .exo-pill {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
+      padding: 3px 8px;
+      border-radius: 8px;
       background: var(--teal-light);
-      color: var(--teal);
+      color: var(--teal-dark);
       white-space: nowrap;
     }
 
@@ -237,7 +235,7 @@
     }
 
     .exo-instructions {
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       color: var(--text-muted);
       margin-bottom: 10px;
       line-height: 1.45;
@@ -247,39 +245,43 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 8px;
+      padding-top: 10px;
       border-top: 1px dashed var(--border);
     }
 
-    .btn-timer {
+    .btn-action {
       background: var(--teal);
       color: #fff;
       border: none;
-      padding: 6px 12px;
+      padding: 7px 14px;
       border-radius: 8px;
       font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      transition: opacity 0.15s;
     }
+
+    .btn-action:active { opacity: 0.8; }
 
     .check-btn {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
+      user-select: none;
     }
 
     .check-box {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border: 2px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 7px;
       display: grid;
       place-content: center;
       background: #fff;
@@ -295,180 +297,350 @@
       content: "✓";
       color: #ffffff;
       font-weight: 900;
-      font-size: 13px;
+      font-size: 14px;
     }
 
-    /* Return to Run table */
-    .rtr-step {
+    /* Interactive Evaluation Quiz */
+    .quiz-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .quiz-question {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .quiz-options {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-opt {
+      background: #fff;
+      border: 1px solid var(--border);
       padding: 10px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .quiz-opt.selected {
+      border-color: var(--teal);
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    /* Live Run Interval Trainer */
+    .trainer-display {
+      background: linear-gradient(135deg, #0f766e, #115e59);
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px -4px rgba(15, 118, 110, 0.3);
+    }
+
+    .trainer-phase {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+    }
+
+    .trainer-timer {
+      font-size: 3.4rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 6px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .trainer-sub {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    /* Return to Run Steps */
+    .rtr-card {
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
+      padding: 12px 14px;
       margin-bottom: 8px;
       background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border-color 0.2s;
     }
 
-    .rtr-step.current {
+    .rtr-card.current {
       border-color: var(--teal);
       background: var(--teal-light);
     }
-
-    .rtr-info h4 { font-size: 0.9rem; font-weight: 800; color: var(--text); }
-    .rtr-info p { font-size: 0.78rem; color: var(--text-muted); }
 
     /* Metronome */
     .metronome-box {
       background: #f8fafc;
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       padding: 16px;
       text-align: center;
       margin-top: 14px;
     }
 
-    .bpm-display {
+    .bpm-val {
       font-size: 2.2rem;
       font-weight: 900;
       color: var(--teal);
     }
 
-    .bpm-slider {
-      width: 100%;
-      margin: 12px 0;
-      accent-color: var(--teal);
+    /* Bottom Navigation */
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 6px;
+      z-index: 100;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
     }
 
-    /* Section management */
-    .section-view { display: none; }
-    .section-view.active { display: block; }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 20%;
+      padding: 4px 0;
+    }
+
+    .nav-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.2s;
+    }
+
+    .nav-btn.active { color: var(--teal); }
+    .nav-btn.active svg { transform: translateY(-2px); }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; animation: fadeIn 0.25s ease-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
 
 <header>
   <div class="header-content">
-    <div class="logo-title">
-      <span>Rehab Tibia</span> 🦵
+    <div class="logo">
+      <span>TibialCare</span> 🦵
     </div>
-    <span class="badge-sub">Guide & Réathlétisation</span>
+    <div class="badge-evidence">
+      <span>✓</span> Consensus Médical & Kiné
+    </div>
   </div>
 </header>
 
 <div class="container">
 
-  <!-- ================= VUE 1 : COMPRENDRE ================= -->
-  <section id="view-comprendre" class="section-view active">
-    
+  <!-- ================= VUE 1 : COMPRENDRE (MÉDECINE & ANATOMIE) ================= -->
+  <section id="view-comprendre" class="view-section active">
+
     <div class="card">
-      <div class="card-title">📖 Qu'est-ce que la périostite tibiale ?</div>
+      <div class="card-title">🔬 Anatomie & Physiopathologie</div>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
-        La périostite tibiale (ou <em>syndrome de stress tibial</em>) est une <strong>irritation inflammatoire de la membrane osseuse (le périoste)</strong> qui enveloppe le tibia. Elle survient typiquement là où s'insèrent les muscles puissants du mollet (soléaire et tibial postérieur).
+        La périostite tibiale (<em>syndrome de stress tibial médial</em>) n'est pas une simple tendinite. Il s'agit d'une <strong>réaction de surcharge de l'enveloppe osseuse (le périoste)</strong> sur le tiers inférieur et interne du tibia, combinée à une micro-flexion cyclique de l'os sous chaque impact de foulée.
       </p>
 
-      <!-- SVG SCHEMA ANATOMIQUE DU TIBIA -->
+      <!-- SCHEMA ANATOMIQUE MEDICAL : TIBIA & PERIOSTE -->
       <div class="illustration-box">
-        <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background bone shape (Tibia) -->
-          <path d="M 170 20 L 210 20 C 215 40 205 70 202 120 C 200 160 208 200 215 220 L 165 220 C 172 200 180 160 178 120 C 175 70 165 40 170 20 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
-          <text x="190" y="55" font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">Tibia</text>
-          
-          <!-- Periosteum Inflammation Zone -->
-          <path d="M 166 125 C 167 150 172 175 174 195" fill="none" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>
-          <circle cx="170" cy="160" r="14" fill="rgba(225, 29, 72, 0.2)" />
-          
-          <!-- Callout lines -->
-          <line x1="170" y1="160" x2="60" y2="160" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,3"/>
-          <rect x="10" y="142" width="115" height="36" rx="6" fill="#fff" stroke="#e11d48" stroke-width="1.5"/>
-          <text x="67" y="157" font-size="10" font-weight="800" fill="#e11d48" text-anchor="middle">Zone douloureuse</text>
-          <text x="67" y="170" font-size="9" fill="#64748b" text-anchor="middle">1/3 inféro-interne</text>
+        <svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="boneGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#cbd5e1" />
+              <stop offset="35%" stop-color="#f8fafc" />
+              <stop offset="70%" stop-color="#e2e8f0" />
+              <stop offset="100%" stop-color="#94a3b8" />
+            </linearGradient>
+            <linearGradient id="inflamGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#be123c" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
 
-          <!-- Soleus / Deep calf pull -->
-          <path d="M 201 110 C 230 130 240 170 220 205" fill="none" stroke="#0284c7" stroke-width="3" stroke-dasharray="4,2"/>
-          <text x="290" y="145" font-size="10" font-weight="700" fill="#0284c7">Traction mécanique</text>
-          <text x="290" y="160" font-size="9" fill="#64748b">(Soléaire & Tibial post.)</text>
-          <line x1="218" y1="145" x2="282" y2="145" stroke="#0284c7" stroke-width="1.5"/>
+          <!-- Tibia silhouette -->
+          <path d="M 180 20 L 225 20 C 230 45 220 70 216 125 C 212 170 220 205 230 230 L 175 230 C 185 205 192 170 190 125 C 186 70 175 45 180 20 Z" fill="url(#boneGrad)" stroke="#64748b" stroke-width="2"/>
+          <text x="202" y="45" font-size="11" font-weight="800" fill="#475569" text-anchor="middle">TIBIA (Os cortical)</text>
+
+          <!-- Zone périostée enflammée -->
+          <path d="M 177 135 C 180 160 186 190 188 215" fill="none" stroke="url(#inflamGrad)" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="182" cy="175" r="16" fill="rgba(244, 63, 94, 0.25)"/>
+
+          <!-- Callout Périoste -->
+          <line x1="180" y1="175" x2="65" y2="175" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="3,3"/>
+          <rect x="10" y="152" width="125" height="46" rx="8" fill="#ffffff" stroke="#f43f5e" stroke-width="1.5"/>
+          <text x="72" y="170" font-size="10" font-weight="800" fill="#be123c" text-anchor="middle">PÉRIÖSTE IRRITÉ</text>
+          <text x="72" y="185" font-size="8.5" fill="#64748b" text-anchor="middle">Micro-traction soléaire</text>
+
+          <!-- Muscles soléaire / tibial postérieur -->
+          <path d="M 220 120 C 255 145 260 180 240 215" fill="none" stroke="#0284c7" stroke-width="4" stroke-dasharray="4,2"/>
+          <line x1="235" y1="165" x2="310" y2="165" stroke="#0284c7" stroke-width="1.5"/>
+          <rect x="290" y="145" width="120" height="42" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1.5"/>
+          <text x="350" y="162" font-size="10" font-weight="800" fill="#0284c7" text-anchor="middle">SOLÉAIRE & TIBIAL POST.</text>
+          <text x="350" y="176" font-size="8.5" fill="#64748b" text-anchor="middle">Forces de cisaillement</text>
         </svg>
+        <div class="illustration-legend">Figure 1 : Zone d'insertion myo-aponévrotique et stress périosté médial</div>
       </div>
 
       <div class="alert alert-amber">
         <span>⚠️</span>
-        <div><strong>Le mythe du repos total :</strong> Arrêter de courir pendant 2 mois soulage temporairement la douleur mais affaiblit encore plus vos tendons et l'os. Dès la reprise, la douleur réapparaît. La clé est la <strong>reprise progressive avec renforcement de la tolérance tissulaire</strong>.</div>
+        <div>
+          <strong>Le piège du repos prolongé :</strong> La recherche montre que l'immobilisation complète déconditionne l'os (perte de densité minérale) et les tendons. Il ne faut pas s'arrêter complètement mais <strong>ajuster la charge sous le seuil douloureux</strong>.
+        </div>
       </div>
     </div>
 
-    <!-- BIOMECANIQUE & CADENCE -->
+    <!-- SCHEMA BIOMECANIQUE DU COUREUR -->
     <div class="card">
-      <div class="card-title">🏃‍♂️ Biomécanique : Pourquoi vous avez mal ?</div>
+      <div class="card-title">🏃 Biomécanique : Cadence & Overstriding</div>
 
-      <!-- SVG CADENCE ET IMPACT -->
       <div class="illustration-box">
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Bad posture (Overstride) -->
-          <g transform="translate(40, 20)">
-            <text x="50" y="15" font-size="11" font-weight="800" fill="#e11d48" text-anchor="middle">Cadence basse (<160 ppm)</text>
-            <circle cx="50" cy="40" r="10" fill="#cbd5e1"/>
-            <line x1="50" y1="50" x2="45" y2="90" stroke="#64748b" stroke-width="3"/>
-            <line x1="45" y1="90" x2="80" y2="130" stroke="#e11d48" stroke-width="3"/> <!-- Leg out in front -->
-            <line x1="80" y1="130" x2="90" y2="140" stroke="#e11d48" stroke-width="3"/>
-            <path d="M 85 145 L 85 170" stroke="#e11d48" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="50" y="165" font-size="9" fill="#e11d48" text-anchor="middle">Gros freinage talon</text>
-            <text x="50" y="177" font-size="8" fill="#64748b" text-anchor="middle">Onde de choc x3 dans le tibia</text>
+        <svg viewBox="0 0 420 210" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bad biomechanics -->
+          <g transform="translate(30, 20)">
+            <text x="75" y="15" font-size="11" font-weight="800" fill="#e11d48" text-anchor="middle">Attaque Talon en avant (&lt; 165 PPM)</text>
+            <circle cx="75" cy="40" r="11" fill="#cbd5e1"/>
+            <line x1="75" y1="51" x2="68" y2="95" stroke="#475569" stroke-width="3"/>
+            <!-- Front leg overstriding -->
+            <line x1="68" y1="95" x2="115" y2="135" stroke="#e11d48" stroke-width="3.5"/>
+            <line x1="115" y1="135" x2="128" y2="142" stroke="#e11d48" stroke-width="3"/>
+            <!-- Vector force arrow -->
+            <line x1="120" y1="165" x2="95" y2="135" stroke="#e11d48" stroke-width="2.5" marker-end="url(#arrow)"/>
+            <text x="75" y="175" font-size="9.5" font-weight="700" fill="#e11d48" text-anchor="middle">Force de freinage maximale</text>
+            <text x="75" y="188" font-size="8.5" fill="#64748b" text-anchor="middle">Le tibia subit 3 à 5x le poids du corps</text>
           </g>
 
-          <!-- Good posture (Optimal cadence) -->
-          <g transform="translate(240, 20)">
-            <text x="50" y="15" font-size="11" font-weight="800" fill="#10b981" text-anchor="middle">Cadence idéale (175-180 ppm)</text>
-            <circle cx="50" cy="40" r="10" fill="#cbd5e1"/>
-            <line x1="50" y1="50" x2="52" y2="90" stroke="#64748b" stroke-width="3"/>
-            <line x1="52" y1="90" x2="54" y2="135" stroke="#10b981" stroke-width="3"/> <!-- Leg under hip -->
-            <line x1="54" y1="135" x2="62" y2="140" stroke="#10b981" stroke-width="3"/>
-            <text x="50" y="165" font-size="9" fill="#10b981" text-anchor="middle">Pose sous le bassin</text>
-            <text x="50" y="177" font-size="8" fill="#64748b" text-anchor="middle">Moins d'impact, rebond élastique</text>
+          <!-- Good biomechanics -->
+          <g transform="translate(250, 20)">
+            <text x="70" y="15" font-size="11" font-weight="800" fill="#10b981" text-anchor="middle">Pose sous le bassin (~175-180 PPM)</text>
+            <circle cx="70" cy="40" r="11" fill="#cbd5e1"/>
+            <line x1="70" y1="51" x2="72" y2="95" stroke="#475569" stroke-width="3"/>
+            <!-- Front leg under COM -->
+            <line x1="72" y1="95" x2="76" y2="140" stroke="#10b981" stroke-width="3.5"/>
+            <line x1="76" y1="140" x2="88" y2="144" stroke="#10b981" stroke-width="3"/>
+            <!-- Vertical soft force -->
+            <line x1="80" y1="165" x2="80" y2="145" stroke="#10b981" stroke-width="2.5"/>
+            <text x="70" y="175" font-size="9.5" font-weight="700" fill="#10b981" text-anchor="middle">Impact vertical doux</text>
+            <text x="70" y="188" font-size="8.5" fill="#64748b" text-anchor="middle">Ressort du soléaire & voûte</text>
           </g>
         </svg>
+        <div class="illustration-legend">Figure 2 : Impact d'une cadence augmentée sur la réduction du stress osseux</div>
       </div>
 
       <div style="font-size: 0.85rem; color: var(--text-muted);">
-        <p><strong>Les 3 facteurs déclencheurs majeurs :</strong></p>
-        <ul style="margin: 8px 0 0 18px;">
-          <li><strong>Le pic de charge :</strong> Augmentation trop rapide du kilométrage hebdomadaire (> 10% par semaine).</li>
-          <li><strong>L'overstriding (attaque talon trop en avant) :</strong> Le pied touche le sol loin devant le genou, envoyant toute l'onde de choc directement dans l'os tibial.</li>
-          <li><strong>Déficit de force du soléaire :</strong> Le soléaire (muscle sous les jumeaux du mollet) absorbe jusqu'à 6 à 8 fois le poids du corps en course. S'il faiblit, l'os subit tout.</li>
-        </ul>
+        <p><strong>Augmenter sa cadence de 5 à 10 %</strong> réduit considérablement les forces de cisaillement sur le périoste, sans demander d'effort cardio supplémentaire.</p>
       </div>
     </div>
 
-    <!-- FEUX TRICOLORES DE LA DOULEUR -->
+    <!-- CONTINUUM DU STRESS OSSEUX -->
     <div class="card">
-      <div class="card-title">🚦 La règle de la douleur (Échelle 0-10)</div>
-      <div class="alert alert-teal">
-        <div>
-          <strong>Zone Verte (0 à 2/10) :</strong> Gêne tolérée pendant l'effort. Pas d'augmentation de la douleur le lendemain matin. <em>Vous pouvez continuer.</em>
+      <div class="card-title">📊 Le continuum de surcharge osseuse</div>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">
+        <div style="padding: 8px 12px; background: #f0fdf4; border-left: 4px solid var(--green); border-radius: 6px;">
+          <strong>Stade 1 — Os sain adapté :</strong> Rénovation osseuse équilibrée avec la charge d'entraînement.
         </div>
-      </div>
-      <div class="alert alert-amber">
-        <div>
-          <strong>Zone Orange (3 à 5/10) :</strong> Douleur sensible mais stable. Si elle disparaît 1h après la séance et que le réveil est indolore, la charge est acceptable.
+        <div style="padding: 8px 12px; background: #fefce8; border-left: 4px solid #eab308; border-radius: 6px;">
+          <strong>Stade 2 — Périostite tibiale (SSTM) :</strong> Irritation périostée diffuse le long du tibia. L'os est encore intact.
         </div>
-      </div>
-      <div class="alert alert-red">
-        <div>
-          <strong>Zone Rouge (> 5/10 ou douleur matinale) :</strong> Si vous boitez ou si la douleur s'aggrave le lendemain matin au saut du lit, l'os est surchargé. <em>Réduisez la charge d'un cran.</em>
+        <div style="padding: 8px 12px; background: #fff7ed; border-left: 4px solid #f97316; border-radius: 6px;">
+          <strong>Stade 3 — Réaction de stress osseux :</strong> Œdème intra-osseux visible à l'IRM. L'os commence à se fissurer.
+        </div>
+        <div style="padding: 8px 12px; background: #fff1f2; border-left: 4px solid var(--red); border-radius: 6px;">
+          <strong>Stade 4 — Fracture de fatigue :</strong> Trait de fracture net. Arrêt complet et béquillage obligatoires.
         </div>
       </div>
     </div>
 
   </section>
 
-  <!-- ================= VUE 2 : EXERCICES DE RENFORCEMENT ================= -->
-  <section id="view-exercices" class="section-view">
-    
+  <!-- ================= VUE 2 : AUTO-ÉVALUATION & TEST ================= -->
+  <section id="view-evaluation" class="view-section">
+
     <div class="card">
-      <div class="card-title">💪 Protocole de Renforcement Ciblé</div>
+      <div class="card-title">🩺 Auto-évaluation guidée</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+        Répondez à ces questions cliniques pour évaluer la probabilité d'une périostite ou dépister un signe d'alerte.
+      </p>
+
+      <div class="quiz-card">
+        <div class="quiz-question">1. Comment se situe la zone douloureuse au toucher ?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectQuiz(this, 'diffuse')">Diffuse sur une ligne de 5 cm ou plus le long de l'arête interne</div>
+          <div class="quiz-opt" onclick="selectQuiz(this, 'focal')">Très précise, sur un point osseux de moins de 2 cm (zone ponctuelle)</div>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-question">2. Que se passe-t-il lors du "Test du saut sur 1 jambe" (Hop Test) ?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectQuiz(this, 'hop_mild')">Une gêne supportable (douleur ≤ 3/10) mais je peux sauter</div>
+          <div class="quiz-opt" onclick="selectQuiz(this, 'hop_severe')">Douleur vive et brutale, impossible de sautiller sur cette jambe</div>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-question">3. Avez-vous mal la nuit au repos complet ?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectQuiz(this, 'night_no')">Non, aucune douleur sans charge ou au lit</div>
+          <div class="quiz-opt" onclick="selectQuiz(this, 'night_yes')">Oui, des élancements nocturnes me réveillent</div>
+        </div>
+      </div>
+
+      <div id="quiz-result" style="display: none; margin-top: 14px;"></div>
+    </div>
+
+  </section>
+
+  <!-- ================= VUE 3 : EXERCICES DE RENFORCEMENT ================= -->
+  <section id="view-exercices" class="view-section">
+
+    <div class="card">
+      <div class="card-title">💪 Protocole de Renforcement Validé</div>
       <div class="sub-tabs">
-        <button class="sub-tab-btn active" onclick="switchExoPhase(1)">Phase 1 : Aiguë / Isométrie</button>
+        <button class="sub-tab-btn active" onclick="switchExoPhase(1)">Phase 1 : Isométrie</button>
         <button class="sub-tab-btn" onclick="switchExoPhase(2)">Phase 2 : Force Lourde</button>
         <button class="sub-tab-btn" onclick="switchExoPhase(3)">Phase 3 : Pliométrie</button>
       </div>
@@ -478,70 +650,67 @@
 
   </section>
 
-  <!-- ================= VUE 3 : PROTOCOLE REPRISE COURSE ================= -->
-  <section id="view-reprise" class="section-view">
-    
-    <div class="card">
-      <div class="card-title">⏱ Return-to-Run (8 Semaines)</div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
-        Protocole progressif d'intervalles marche/course. Ne passez à l'étape suivante que si la séance actuelle est validée <strong>avec une douleur ≤ 2/10 le lendemain matin</strong>.
-      </p>
+  <!-- ================= VUE 4 : REPRISE DE COURSE ================= -->
+  <section id="view-reprise" class="view-section">
 
+    <div class="card">
+      <div class="card-title">🏃‍♂️ Entraîneur Fractionné Marche/Course</div>
+      
+      <!-- LIVE RUNNING TIMER INTERFACE -->
+      <div class="trainer-display">
+        <div class="trainer-phase" id="live-phase">Prêt à démarrer</div>
+        <div class="trainer-timer" id="live-timer">01:00</div>
+        <div class="trainer-sub" id="live-interval">Intervalle 1 / 10</div>
+        
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 14px;">
+          <button class="btn-action" id="btn-trainer-toggle" onclick="toggleRunTrainer()" style="background:#fff; color:var(--teal); font-size:0.9rem; padding:10px 22px;">
+            ▶ Lancer la séance
+          </button>
+          <button class="btn-action" onclick="resetRunTrainer()" style="background:rgba(255,255,255,0.2); font-size:0.9rem; padding:10px 16px;">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top: 20px;">📅 Les 8 Étapes du "Return-to-Run"</div>
       <div id="rtr-list"></div>
 
-      <!-- METRONOME CADENCE -->
+      <!-- METRONOME INTERACTIF -->
       <div class="metronome-box">
-        <div style="font-size: 0.9rem; font-weight: 800;">🎵 Métronome de Cadence</div>
-        <p style="font-size: 0.78rem; color: var(--text-muted);">Synchronisez vos foulées sur les bips pour réduire l'impact au sol (idéal : 175-180 ppm).</p>
-        
-        <div class="bpm-display" id="bpm-val">175 PPM</div>
-        <input type="range" class="bpm-slider" id="bpm-input" min="160" max="190" value="175" oninput="updateBpm(this.value)">
-        
-        <button class="btn-timer" id="btn-metronome" onclick="toggleMetronome()" style="margin: 0 auto; padding: 10px 20px; font-size: 0.9rem;">
-          ▶ Démarrer le métronome
+        <div style="font-weight: 800; font-size: 0.95rem;">🎵 Métronome de Cadence Audio</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Calez vos appuis sur chaque bip (cible : 175 - 180 PPM) pour diviser par deux les forces de freinage.</p>
+        <div class="bpm-val" id="bpm-display">175 PPM</div>
+        <input type="range" min="160" max="190" value="175" id="bpm-slider" style="width: 100%; accent-color: var(--teal); margin: 10px 0;" oninput="updateBpm(this.value)">
+        <button class="btn-action" id="btn-metro-toggle" onclick="toggleMetronome()" style="padding: 10px 20px;">
+          ▶ Activer le métronome
         </button>
       </div>
     </div>
 
   </section>
 
-  <!-- ================= VUE 4 : TEST & JOURNAL ================= -->
-  <section id="view-journal" class="section-view">
-    
-    <div class="card">
-      <div class="card-title">🩺 Auto-évaluation & Drapeaux Rouges</div>
-      
-      <div class="alert alert-red">
-        <div>
-          <strong>🚩 Alerte Fracture de fatigue :</strong><br>
-          Si la douleur est concentrée sur <strong>un point osseux très précis de moins de 1 cm</strong>, si elle est présente la nuit au repos, ou si sautiller sur une seule jambe est insupportable, arrêtez la course et consultez un médecin du sport pour prescrire une IRM ou une scintigraphie osseuse.
-        </div>
-      </div>
+  <!-- ================= VUE 5 : JOURNAL & RÉACTIVITÉ 24H ================= -->
+  <section id="view-journal" class="view-section">
 
-      <p style="font-size: 0.85rem; color: var(--text-muted);">
-        À l'inverse, la périostite tibiale diffuse généralement sur <strong>5 à 10 cm le long de l'arête interne du tibia</strong> et s'atténue souvent légèrement à chaud avant de revenir après refroidissement.
-      </p>
-    </div>
-
-    <!-- JOURNAL DE DOULEUR -->
     <div class="card">
-      <div class="card-title">📝 Journal de Bord Quotidien</div>
+      <div class="card-title">📝 Règle des 24h & Journal Matinal</div>
       <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-        Notez votre niveau de douleur ressenti chaque matin au saut du lit (le meilleur indicateur de la santé de l'os).
+        L'os ne prévient pas toujours pendant l'effort. <strong>La véritable réponse biologique s'observe au réveil le lendemain matin</strong> au moment où vous posez le pied par terre.
       </p>
 
-      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span style="font-size: 0.85rem; font-weight: 700;">Douleur au réveil :</span>
         <input type="range" min="0" max="10" value="1" id="input-pain" style="flex-grow: 1; accent-color: var(--teal);" oninput="document.getElementById('pain-val').textContent = this.value">
-        <span style="font-weight: 800; font-size: 1.1rem; width: 35px; text-align: center;" id="pain-val">1</span>/10
+        <span style="font-weight: 900; font-size: 1.1rem; width: 30px;" id="pain-val">1</span>/10
       </div>
 
-      <input type="text" id="input-note" placeholder="Ex: Séance marche/course 3 validée, aucune douleur" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px;">
+      <input type="text" id="input-note" placeholder="Ex: Sortie 15 min marche/course hier, pas de douleur matinale" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 10px;">
 
-      <button class="btn-timer" onclick="savePainEntry()" style="width: 100%; justify-content: center; padding: 10px;">
-        Enregistrer la note du jour
+      <button class="btn-action" onclick="savePainEntry()" style="width: 100%; justify-content: center; padding: 10px;">
+        Enregistrer le relevé
       </button>
 
-      <div id="pain-history" style="margin-top: 16px;"></div>
+      <div id="pain-history" style="margin-top: 18px;"></div>
     </div>
 
   </section>
@@ -550,20 +719,24 @@
 
 <!-- BOTTOM BAR NAVIGATION -->
 <nav class="nav-bar">
-  <button class="nav-item active" onclick="navigate('comprendre')">
+  <button class="nav-btn active" onclick="navigate('comprendre')">
     <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
     <span>Comprendre</span>
   </button>
-  <button class="nav-item" onclick="navigate('exercices')">
-    <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v8H2z"></path><line x1="6" y1="1" x2="6" y2="23"></line><line x1="14" y1="1" x2="14" y2="23"></line></svg>
+  <button class="nav-btn" onclick="navigate('evaluation')">
+    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+    <span>Auto-Test</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('exercices')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
     <span>Exercices</span>
   </button>
-  <button class="nav-item" onclick="navigate('reprise')">
+  <button class="nav-btn" onclick="navigate('reprise')">
     <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
     <span>Reprise</span>
   </button>
-  <button class="nav-item" onclick="navigate('journal')">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+  <button class="nav-btn" onclick="navigate('journal')">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
     <span>Journal</span>
   </button>
 </nav>
@@ -571,21 +744,56 @@
 <script>
   /* NAVIGATION SYSTEM */
   function navigate(viewId) {
-    document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
     
     document.getElementById(`view-${viewId}`).classList.add('active');
     
-    const navButtons = document.querySelectorAll('.nav-item');
-    if (viewId === 'comprendre') navButtons[0].classList.add('active');
-    if (viewId === 'exercices') navButtons[1].classList.add('active');
-    if (viewId === 'reprise') navButtons[2].classList.add('active');
-    if (viewId === 'journal') navButtons[3].classList.add('active');
+    const tabs = ['comprendre', 'evaluation', 'exercices', 'reprise', 'journal'];
+    const index = tabs.indexOf(viewId);
+    if (index >= 0) document.querySelectorAll('.nav-btn')[index].classList.add('active');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  /* EXERCISE DATABASE */
+  /* QUIZ SYSTEM */
+  let quizAnswers = {};
+  function selectQuiz(element, value) {
+    const parent = element.parentElement;
+    parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('selected'));
+    element.classList.add('selected');
+
+    if (value === 'diffuse' || value === 'focal') quizAnswers.loc = value;
+    if (value === 'hop_mild' || value === 'hop_severe') quizAnswers.hop = value;
+    if (value === 'night_no' || value === 'night_yes') quizAnswers.night = value;
+
+    if (quizAnswers.loc && quizAnswers.hop && quizAnswers.night) {
+      const resultCard = document.getElementById('quiz-result');
+      resultCard.style.display = 'block';
+
+      if (quizAnswers.loc === 'focal' || quizAnswers.hop === 'hop_severe' || quizAnswers.night === 'night_yes') {
+        resultCard.innerHTML = `
+          <div class="alert alert-red">
+            <div>
+              <strong>🚩 Suspicion de Fracture de Fatigue :</strong><br>
+              Vos réponses (douleur focale très précise, saut unipodal intolérable ou élancements nocturnes) sont des critères d'alerte. Consultez sans attendre un médecin du sport pour un examen clinique et une prescription d'imagerie (IRM ou scanner). Arrêtez immédiatement les impacts.
+            </div>
+          </div>
+        `;
+      } else {
+        resultCard.innerHTML = `
+          <div class="alert alert-teal">
+            <div>
+              <strong>✓ Profil typique de Périostite Tibiale :</strong><br>
+              Vos signes (douleur diffuse le long de la crête sans douleur nocturne ni fracture ponctuelle) correspondent au syndrome de stress tibial médial classique. Le protocole de renforcement ciblé et de reprise progressive ci-contre est parfaitement indiqué pour vous.
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  /* EXERCISES DATABASE */
   const exoData = {
     1: [
       {
@@ -593,7 +801,7 @@
         title: "Soléaire Isométrique Assis (Charge lourde)",
         pill: "Soléaire",
         meta: "5 séries x 45s maintien (2 min repos)",
-        desc: "Assis avec les genoux à 90°, pieds à plat. Posez un poids lourd (sac à dos lesté, haltère ou pack d'eau de 10-20 kg) sur vos genoux. Montez sur demi-pointes et bloquez sans bouger.",
+        desc: "Assis, genoux à 90°, pieds à plat. Placez un sac lesté ou haltère lourd (10-20 kg) sur vos genoux. Décollez les talons de 3 cm et maintenez sans bouger. L'isométrie produit une analgésie naturelle immédiate.",
         timer: 45
       },
       {
@@ -601,7 +809,7 @@
         title: "Tibial Postérieur avec balle entre talons",
         pill: "Tibial Postérieur",
         meta: "4 séries x 30s de maintien",
-        desc: "Debout, serrez fermement une balle de tennis entre vos deux talons. Montez légèrement sur demi-pointes en maintenant une forte pression interne sans écarter les chevilles.",
+        desc: "Debout, comprimez fort une balle de tennis entre vos deux talons. Montez de 2-3 cm sur pointe en maintenant la pression vers l'intérieur sans laisser la cheville s'effondrer.",
         timer: 30
       },
       {
@@ -609,75 +817,51 @@
         title: "Pied Court de Janda (Short Foot)",
         pill: "Voûte plantaire",
         meta: "3 séries x 10 contractions de 5s",
-        desc: "Pieds nus à plat au sol. Rapprochez la tête du gros orteil vers le talon sans recroqueviller les orteils pour creuser la voûte. Cela verrouille le pied et protège le tibia.",
-        timer: 30
-      },
-      {
-        id: "p1_glute_bridge",
-        title: "Pont Fessier Isométrique 1 Jambe",
-        pill: "Bassin & Fessiers",
-        meta: "3 séries x 30s par jambe",
-        desc: "Sur le dos, décollez le bassin et tendez une jambe. Gardez le bassin parfaitement droit. Un moyen fessier fort empêche le genou de rentrer vers l'intérieur (valgus dynamique).",
+        desc: "Pieds nus à plat. Rapprochez la tête du gros orteil vers le talon sans recroqueviller les orteils pour creuser la voûte. Active les muscles intrinsèques pour rigidifier le pied.",
         timer: 30
       }
     ],
     2: [
       {
-        id: "p2_heel_raise_bent",
+        id: "p2_soleus_heavy",
         title: "Mollet lourd sur marche genou fléchi",
         pill: "Soléaire Excentrique",
-        meta: "3 séries x 10 à 12 reps lentes",
-        desc: "Sur une marche d'escalier sur un pied, maintenez le genou plié à 30°. Montez en 1 seconde, puis freinez la descente en 3 à 4 secondes complètes sous la marche.",
+        meta: "3 séries x 10 reps (descente lente 4s)",
+        desc: "Sur une marche, sur 1 pied, genou constamment plié à 30°. Montez en 1 seconde, puis freinez lentement la descente sous la marche pendant 4 secondes complètes.",
         timer: 60
       },
       {
         id: "p2_tibialis_raises",
-        title: "Tibialis Raises (Dos au mur)",
+        title: "Tibialis Raises (Releveurs dos au mur)",
         pill: "Tibial Antérieur",
-        meta: "3 séries x 20 reps contrôlées",
-        desc: "Adossé contre un mur, talons placés à 40 cm en avant. Levez les orteils et le devant du pied le plus haut possible vers vos tibias, marquez 1s en haut, puis reposez.",
+        meta: "3 séries x 20 répétitions",
+        desc: "Dos au mur, talons à 40 cm en avant. Relevez les pointes de pied au maximum vers vos tibias, marquez 1s d'arrêt au sommet, puis reposez.",
         timer: 45
       },
       {
         id: "p2_band_inversion",
-        title: "Inversion active à l'élastique",
+        title: "Inversion active avec élastique",
         pill: "Cheville & Tendons",
-        meta: "3 séries x 15 reps par pied",
-        desc: "Attachez un élastique sur l'avant-pied. Ramenez la plante de pied vers l'intérieur contre la résistance de l'élastique en contrôlant le retour.",
-        timer: 45
-      },
-      {
-        id: "p2_step_down",
-        title: "Step-Down contrôlé depuis une marche",
-        pill: "Quadriceps & Bassin",
-        meta: "3 séries x 10 reps / jambe",
-        desc: "Debout sur une marche, descendez lentement le pied libre pour effleurer le sol avec le talon sans poser le poids, puis remontez en poussant sur la jambe d'appui.",
+        meta: "3 séries x 15 reps par jambe",
+        desc: "Élastique fixé autour de l'avant-pied. Ramenez la plante du pied vers l'intérieur contre résistance en retenant lentement le retour.",
         timer: 45
       }
     ],
     3: [
       {
-        id: "p3_pogo",
-        title: "Pogo Jumps (Rebonds élastiques)",
+        id: "p3_pogo_jumps",
+        title: "Pogo Jumps (Rebonds élastiques cheville)",
         pill: "Élasticité du tendon",
         meta: "4 séries x 20 secondes",
-        desc: "Petits rebonds légers sur place, genoux quasi verrouillés, uniquement par la flexion de la cheville. Visez un contact au sol minimal et sans bruit sourd.",
+        desc: "Petits rebonds réactifs sur place, genoux quasi tendus, impulsion uniquement issue de la cheville. Minimisez le temps de contact au sol.",
         timer: 30
       },
       {
-        id: "p3_box_landing",
-        title: "Atterrissage amorti depuis une marche",
+        id: "p3_drop_landing",
+        title: "Atterrissage amorti sans bruit",
         pill: "Absorption de choc",
-        meta: "3 séries x 8 réceptions silencieuses",
-        desc: "Laissez-vous tomber d'une marche de 15-20 cm et absorbez instantanément l'impact en fléchissant souplement chevilles et genoux. Aucun bruit d'impact !",
-        timer: 45
-      },
-      {
-        id: "p3_lateral_hops",
-        title: "Sauts latéraux 1 jambe amortis",
-        pill: "Stabilité 3D",
-        meta: "3 séries x 10 sauts par jambe",
-        desc: "Sautez d'un côté à l'autre sur une seule jambe en marquant 1 seconde d'arrêt complet et d'équilibre à chaque réception.",
+        meta: "3 séries x 8 répétitions",
+        desc: "Laissez-vous glisser du haut d'une marche de 15 cm et amortissez instantanément en souplesse, sans aucun bruit d'impact au sol.",
         timer: 45
       }
     ]
@@ -750,12 +934,12 @@
           </div>
           <div class="exo-instructions">${item.desc}</div>
           <div class="exo-actions">
-            <button class="btn-timer" onclick="startTimer('${item.id}', ${item.timer})">
+            <button class="btn-action" onclick="startTimer('${item.id}', ${item.timer})">
               ⏱ ${isRunning ? 'Arrêter (' + activeIntervals[item.id].left + 's)' : 'Lancer repos (' + item.timer + 's)'}
             </button>
             <div class="check-btn" onclick="toggleExoDone('${item.id}')">
               <span class="check-box"></span>
-              <span>${isDone ? 'Validé' : 'À faire'}</span>
+              <span>${isDone ? 'Fait' : 'À faire'}</span>
             </div>
           </div>
         </div>
@@ -765,14 +949,14 @@
 
   /* RETURN TO RUN PROTOCOL */
   const rtrStages = [
-    { s: 1, title: "Semaine 1 : Test d'impact", detail: "10x (1 min course très lente / 1 min marche) = 10 min de course totale" },
-    { s: 2, title: "Semaine 2 : Consolidation", detail: "7x (2 min course / 1 min marche) = 14 min de course" },
-    { s: 3, title: "Semaine 3 : Montée du volume", detail: "6x (3 min course / 1 min marche) = 18 min de course" },
-    { s: 4, title: "Semaine 4 : Cap des 20 min", detail: "5x (4 min course / 1 min marche) = 20 min de course" },
-    { s: 5, title: "Semaine 5 : Continuité", detail: "4x (6 min course / 1 min marche) = 24 min de course" },
-    { s: 6, title: "Semaine 6 : Fractionné long", detail: "3x (8 min course / 2 min marche) = 24 min de course" },
-    { s: 7, title: "Semaine 7 : Quasi continu", detail: "2x (12 min course / 2 min marche) = 24 min de course" },
-    { s: 8, title: "Semaine 8 : Course continue", detail: "25 à 30 min en continu sur sol souple en aisance respiratoire" }
+    { s: 1, runSec: 60, walkSec: 60, reps: 10, title: "Étape 1 : 10x (1 min course / 1 min marche)", total: "20 min" },
+    { s: 2, runSec: 120, walkSec: 60, reps: 7, title: "Étape 2 : 7x (2 min course / 1 min marche)", total: "21 min" },
+    { s: 3, runSec: 180, walkSec: 60, reps: 6, title: "Étape 3 : 6x (3 min course / 1 min marche)", total: "24 min" },
+    { s: 4, runSec: 240, walkSec: 60, reps: 5, title: "Étape 4 : 5x (4 min course / 1 min marche)", total: "25 min" },
+    { s: 5, runSec: 360, walkSec: 60, reps: 4, title: "Étape 5 : 4x (6 min course / 1 min marche)", total: "28 min" },
+    { s: 6, runSec: 480, walkSec: 120, reps: 3, title: "Étape 6 : 3x (8 min course / 2 min marche)", total: "30 min" },
+    { s: 7, runSec: 720, walkSec: 120, reps: 2, title: "Étape 7 : 2x (12 min course / 2 min marche)", total: "28 min" },
+    { s: 8, runSec: 1500, walkSec: 0, reps: 1, title: "Étape 8 : 25 min en continu souple", total: "25 min" }
   ];
 
   function renderRTR() {
@@ -784,13 +968,13 @@
       const isPast = step.s < savedStep;
 
       return `
-        <div class="rtr-step ${isCur ? 'current' : ''}">
-          <div class="rtr-info">
-            <h4>${step.title} ${isPast ? '✅' : ''}</h4>
-            <p>${step.detail}</p>
+        <div class="rtr-card ${isCur ? 'current' : ''}">
+          <div>
+            <div style="font-weight: 800; font-size: 0.88rem;">${step.title} ${isPast ? '✅' : ''}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Volume total : ${step.total}</div>
           </div>
-          <button class="btn-timer" style="background:${isCur ? 'var(--teal)' : '#cbd5e1'}; font-size:0.75rem;" onclick="setRTRStep(${step.s})">
-            ${isCur ? 'En cours' : (isPast ? 'Revoir' : 'Activer')}
+          <button class="btn-action" style="background:${isCur ? 'var(--teal)' : '#cbd5e1'}; font-size:0.75rem; padding:6px 12px;" onclick="setRTRStep(${step.s})">
+            ${isCur ? 'Actif' : (isPast ? 'Revoir' : 'Sélectionner')}
           </button>
         </div>
       `;
@@ -799,62 +983,136 @@
 
   function setRTRStep(s) {
     localStorage.setItem('rtr_step', s);
+    resetRunTrainer();
     renderRTR();
   }
 
-  /* METRONOME SYSTEM (Web Audio API) */
-  let audioCtx = null;
-  let isMetronomeOn = false;
-  let bpm = 175;
-  let metronomeTimer = null;
+  /* LIVE RUN INTERVAL TRAINER ENGINE */
+  let trainerRunning = false;
+  let trainerInterval = null;
+  let trainerPhase = 'run'; // 'run' or 'walk'
+  let trainerRep = 1;
+  let trainerSec = 60;
 
-  function updateBpm(v) {
-    bpm = v;
-    document.getElementById('bpm-val').textContent = `${v} PPM`;
-    if (isMetronomeOn) {
-      clearInterval(metronomeTimer);
-      startMetronomeLoop();
+  function resetRunTrainer() {
+    clearInterval(trainerInterval);
+    trainerRunning = false;
+    const stepNum = parseInt(localStorage.getItem('rtr_step') || '1');
+    const config = rtrStages[stepNum - 1];
+
+    trainerPhase = 'run';
+    trainerRep = 1;
+    trainerSec = config.runSec;
+
+    document.getElementById('live-phase').textContent = "Course lente";
+    document.getElementById('live-timer').textContent = formatTime(trainerSec);
+    document.getElementById('live-interval').textContent = `Intervalle ${trainerRep} / ${config.reps}`;
+    document.getElementById('btn-trainer-toggle').textContent = "▶ Lancer la séance";
+  }
+
+  function toggleRunTrainer() {
+    if (trainerRunning) {
+      clearInterval(trainerInterval);
+      trainerRunning = false;
+      document.getElementById('btn-trainer-toggle').textContent = "▶ Reprendre";
+    } else {
+      trainerRunning = true;
+      document.getElementById('btn-trainer-toggle').textContent = "⏸ Pause";
+      trainerInterval = setInterval(trainerTick, 1000);
     }
   }
 
-  function playTick() {
+  function trainerTick() {
+    trainerSec--;
+    const stepNum = parseInt(localStorage.getItem('rtr_step') || '1');
+    const config = rtrStages[stepNum - 1];
+
+    if (trainerSec < 0) {
+      if (trainerPhase === 'run' && config.walkSec > 0) {
+        trainerPhase = 'walk';
+        trainerSec = config.walkSec;
+        document.getElementById('live-phase').textContent = "Marche de récupération 🚶";
+        playAudioBeep(440, 0.3);
+      } else {
+        trainerRep++;
+        if (trainerRep > config.reps) {
+          clearInterval(trainerInterval);
+          trainerRunning = false;
+          document.getElementById('live-phase').textContent = "Séance terminée ! Bravo 🎉";
+          document.getElementById('live-timer').textContent = "00:00";
+          playAudioBeep(880, 0.6);
+          return;
+        }
+        trainerPhase = 'run';
+        trainerSec = config.runSec;
+        document.getElementById('live-phase').textContent = "Course lente 🏃‍♂️";
+        playAudioBeep(880, 0.3);
+      }
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    }
+
+    document.getElementById('live-timer').textContent = formatTime(trainerSec);
+    document.getElementById('live-interval').textContent = `Intervalle ${trainerRep} / ${config.reps}`;
+  }
+
+  function formatTime(s) {
+    const mins = Math.floor(s / 60);
+    const secs = s % 60;
+    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  /* METRONOME & AUDIO ENGINE */
+  let audioCtx = null;
+  let isMetroRunning = false;
+  let bpm = 175;
+  let metroInterval = null;
+
+  function initAudio() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  function playAudioBeep(freq = 880, dur = 0.05) {
+    initAudio();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.type = "sine";
-    osc.frequency.setValueAtTime(880, audioCtx.currentTime); // 880 Hz crisp click
-    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.05);
+    osc.stop(audioCtx.currentTime + dur);
   }
 
-  function startMetronomeLoop() {
-    const intervalMs = (60 / bpm) * 1000;
-    metronomeTimer = setInterval(playTick, intervalMs);
-  }
-
-  function toggleMetronome() {
-    const btn = document.getElementById('btn-metronome');
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    if (isMetronomeOn) {
-      clearInterval(metronomeTimer);
-      isMetronomeOn = false;
-      btn.textContent = "▶ Démarrer le métronome";
-      btn.style.background = "var(--teal)";
-    } else {
-      isMetronomeOn = true;
-      btn.textContent = "⏹ Arrêter le métronome";
-      btn.style.background = "var(--red)";
-      playTick();
-      startMetronomeLoop();
+  function updateBpm(v) {
+    bpm = v;
+    document.getElementById('bpm-display').textContent = `${v} PPM`;
+    if (isMetroRunning) {
+      clearInterval(metroInterval);
+      metroInterval = setInterval(() => playAudioBeep(880, 0.04), (60 / bpm) * 1000);
     }
   }
 
-  /* PAIN LOG SYSTEM */
+  function toggleMetronome() {
+    initAudio();
+    const btn = document.getElementById('btn-metro-toggle');
+
+    if (isMetroRunning) {
+      clearInterval(metroInterval);
+      isMetroRunning = false;
+      btn.textContent = "▶ Activer le métronome";
+      btn.style.background = "var(--teal)";
+    } else {
+      isMetroRunning = true;
+      btn.textContent = "⏹ Arrêter le métronome";
+      btn.style.background = "var(--red)";
+      playAudioBeep(880, 0.04);
+      metroInterval = setInterval(() => playAudioBeep(880, 0.04), (60 / bpm) * 1000);
+    }
+  }
+
+  /* PAIN LOG */
   function getPainHistory() {
     try { return JSON.parse(localStorage.getItem('pain_history') || '[]'); } catch { return []; }
   }
@@ -866,7 +1124,7 @@
 
     const hist = getPainHistory();
     hist.unshift({ date, pain, note });
-    localStorage.setItem('pain_history', JSON.stringify(hist.slice(0, 10)));
+    localStorage.setItem('pain_history', JSON.stringify(hist.slice(0, 8)));
 
     document.getElementById('input-note').value = "";
     renderPainHistory();
@@ -877,11 +1135,11 @@
     const container = document.getElementById('pain-history');
 
     if (!hist.length) {
-      container.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted); text-align:center;">Aucune entrée enregistrée pour l'instant.</p>`;
+      container.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted); text-align:center;">Aucun relevé enregistré.</p>`;
       return;
     }
 
-    container.innerHTML = `<div style="font-size:0.85rem; font-weight:800; margin-bottom:8px;">Derniers relevés :</div>` +
+    container.innerHTML = `<div style="font-size:0.85rem; font-weight:800; margin-bottom:8px;">Historique des 24h :</div>` +
       hist.map(item => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-bottom:1px solid var(--border); font-size:0.82rem;">
           <div>
@@ -894,9 +1152,10 @@
       `).join('');
   }
 
-  // Initial render
+  // Initial runs
   renderExos();
   renderRTR();
+  resetRunTrainer();
   renderPainHistory();
 </script>
 
