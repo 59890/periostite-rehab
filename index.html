@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TibialCare Pro — Réathlétisation Intelligente</title>
+  <title>TibialCare Pro — Réathlétisation & Imagerie Médicale</title>
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -101,6 +101,60 @@
       margin-bottom: 12px;
     }
 
+    /* Medical Image Container */
+    .med-img-box {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 8px;
+      margin: 12px 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .med-img {
+      max-width: 100%;
+      height: auto;
+      max-height: 280px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #ffffff;
+      display: inline-block;
+    }
+
+    .med-caption {
+      font-size: 0.76rem;
+      color: #94a3b8;
+      margin-top: 8px;
+      text-align: left;
+      line-height: 1.4;
+      padding: 0 4px;
+    }
+
+    .med-caption strong { color: #f8fafc; }
+
+    /* Exercise Visual Preview */
+    .exo-visual-row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+      align-items: center;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .exo-thumb {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      flex-shrink: 0;
+    }
+
     /* Smart Daily Readiness Banner */
     .readiness-banner {
       border-radius: var(--radius-xl);
@@ -153,7 +207,7 @@
       color: var(--blue);
     }
 
-    /* Visual Exercise Cards with Posture Toggle */
+    /* Exercise item */
     .exo-item {
       border: 1.5px solid var(--border);
       border-radius: var(--radius-lg);
@@ -177,38 +231,6 @@
     .exo-title { font-size: 0.95rem; font-weight: 900; }
     .exo-tag { font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: var(--blue-light); color: var(--blue); }
     .exo-meta { font-size: 0.8rem; font-weight: 800; color: var(--teal); margin-bottom: 8px; }
-
-    /* Posture Toggle Box */
-    .posture-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      margin: 10px 0;
-    }
-
-    .posture-tabs {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .p-btn {
-      flex: 1;
-      padding: 6px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: #fff;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .p-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-
-    .posture-desc { font-size: 0.82rem; color: var(--text); line-height: 1.4; min-height: 48px; }
 
     .cues-grid {
       display: grid;
@@ -292,7 +314,7 @@
       box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);
     }
 
-    /* RTR Steps */
+    /* Adaptive RTR Steps Cards */
     .rtr-card {
       border: 1.5px solid var(--border);
       border-radius: var(--radius-md);
@@ -302,10 +324,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: all 0.2s ease;
     }
 
     .rtr-card.current { border-color: var(--blue); background: var(--blue-light); }
-    .rtr-card.locked { opacity: 0.6; filter: grayscale(0.8); }
+    .rtr-card.recommended { border-color: var(--green); background: #f0fdf4; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3); }
+    .rtr-card.locked { opacity: 0.55; filter: grayscale(0.85); background: #f8fafc; }
+
+    .step-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-left: 6px;
+      display: inline-block;
+    }
+    .badge-done { background: var(--green-light); color: var(--green); }
+    .badge-target { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .badge-lock { background: #e2e8f0; color: #64748b; }
 
     /* Bottom Navigation */
     .nav-bar {
@@ -402,20 +438,20 @@
       <div class="card-title">🚦 La Règle d'Or des 24h</div>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">
         <div style="padding: 10px; background: var(--green-light); border-radius: 8px; color: #065f46;">
-          <strong>🟢 Matin ≤ 2/10 :</strong> Adaptation tissulaire réussie. Poursuivez le programme.
+          <strong>🟢 Matin ≤ 2/10 :</strong> Adaptation réussie. Vous pouvez monter d'étape.
         </div>
         <div style="padding: 10px; background: var(--amber-light); border-radius: 8px; color: #92400e;">
-          <strong>🟡 Matin à 3-4/10 :</strong> Seuil limite. Pas de course aujourd'hui, remplacez par 30 min de vélo souple.
+          <strong>🟡 Matin à 3-4/10 :</strong> Seuil limite. Consolidez l'étape actuelle sans monter.
         </div>
         <div style="padding: 10px; background: var(--coral-light); border-radius: 8px; color: #9f1239;">
-          <strong>🔴 Matin ≥ 5/10 ou boiterie :</strong> Surcharge osseuse. 48h de repos d'impact et isométrie stricte.
+          <strong>🔴 Matin ≥ 5/10 ou boiterie :</strong> Surcharge. Rétrogradez d'un palier et 48h de repos d'impact.
         </div>
       </div>
     </div>
 
   </section>
 
-  <!-- ================= VUE 2 : EXERCICES (GUIDES VISUELS & POSTURE) ================= -->
+  <!-- ================= VUE 2 : EXERCICES (AVEC VRAIES IMAGES DE POSTURE) ================= -->
   <section id="view-exercices" class="view-section">
 
     <div class="card">
@@ -431,14 +467,14 @@
 
   </section>
 
-  <!-- ================= VUE 3 : ENTRAÎNEUR COURSE (AVEC QUESTIONNAIRE DERNIÈRE SORTIE) ================= -->
+  <!-- ================= VUE 3 : ENTRAÎNEUR COURSE & PROTOCOLE ADAPTATIF ================= -->
   <section id="view-reprise" class="view-section">
 
-    <!-- QUESTIONNAIRE DERNIÈRE SORTIE -->
+    <!-- QUESTIONNAIRE DEBRIEFING -->
     <div class="card" style="border: 2px solid var(--blue-light);">
       <div class="card-title">📋 Bilan de ma dernière sortie</div>
       <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-        Indiquez vos sensations de course pour savoir si votre périoste a bien toléré la séance ou s'il faut adapter l'allure.
+        L'algorithme adapte automatiquement vos prochaines séances en fonction de ces données.
       </p>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
@@ -467,11 +503,15 @@
       </div>
 
       <button class="btn-action" onclick="saveRunDebrief()" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.85rem;">
-        💾 Enregistrer le bilan de la séance
+        💾 Enregistrer le bilan & Adapter le protocole
       </button>
 
       <div id="run-feedback-box" style="margin-top: 12px; display: none;"></div>
-      <div id="run-history-list" style="margin-top: 14px;"></div>
+    </div>
+
+    <!-- BANNIÈRE D'ADAPTATION DU PROTOCOLE EN DIRECT -->
+    <div id="adaptive-rtr-banner" style="background:#fff; border:2px solid var(--teal); border-radius:var(--radius-lg); padding:14px; margin-bottom:14px; box-shadow:var(--shadow-sm);">
+      <!-- Injecté dynamiquement par evaluateAdaptiveProtocol() -->
     </div>
 
     <!-- LIVE RUN INTERVAL TRAINER WITH WAKELOCK -->
@@ -493,7 +533,7 @@
 
     <!-- RTR STEPS -->
     <div class="card">
-      <div class="card-title">📅 Protocole "Return-to-Run" (8 Étapes)</div>
+      <div class="card-title">📅 Protocole Adaptatif "Return-to-Run"</div>
       <div id="rtr-list"></div>
 
       <!-- AUDIO CADENCE METRONOME -->
@@ -510,9 +550,42 @@
 
   </section>
 
-  <!-- ================= VUE 4 : COMPRENDRE (MYTHES & SIMULATEUR) ================= -->
+  <!-- ================= VUE 4 : COMPRENDRE (AVEC VRAIES IMAGES MÉDICALES ET RADIOLOGIQUES) ================= -->
   <section id="view-comprendre" class="view-section">
 
+    <!-- 1. VRAIE IRM CLINIQUE -->
+    <div class="card">
+      <div class="card-title">🔬 Imagerie Réelle : L'IRM du Tibia</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Voici à quoi ressemble une périostite tibiale sur une <strong>vraie IRM médicale (séquence coronale STIR avec suppression des graisses)</strong> :
+      </p>
+
+      <div class="med-img-box">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shinsplint-mri.jpg?width=500" alt="IRM Périostite Tibiale" class="med-img">
+        <div class="med-caption">
+          <strong>Figure 1 : IRM du bas de la jambe (Séquence STIR).</strong><br>
+          Remarquez le <em>signal hypersilencieux (blanc brillant)</em> le long de la corticale interne du tibia : c'est l'œdème inflammatoire caractéristique de l'enveloppe osseuse (le périoste).
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. VRAIE PLANCHE ANATOMIQUE DES MUSCLES DU MOLLET -->
+    <div class="card">
+      <div class="card-title">🦴 Anatomie Réelle : Le Muscle Soléaire</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Le véritable coupable n'est pas le mollet superficiel, mais le <strong>muscle soléaire profond</strong> qui s'insère directement sur l'os tibial :
+      </p>
+
+      <div class="med-img-box" style="background:#ffffff; border:1px solid #cbd5e1;">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_b.png?width=500" alt="Anatomie Soléaire et Mollet" class="med-img">
+        <div class="med-caption" style="color:#475569;">
+          <strong>Figure 2 : Planche anatomique médicale OpenStax.</strong><br>
+          Vue postérieure montrant le <em>Soleus muscle</em> (soléaire), moteur principal d'amortissement de la foulée qui tire sur le périoste lors de chaque appui au sol.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. VRAI OU FAUX CLINIQUES -->
     <div class="card">
       <div class="card-title">💡 Vrai / Faux (Appuyez pour révéler)</div>
 
@@ -546,6 +619,9 @@
 
     <div class="card">
       <div class="card-title">📝 Relevé Matinal (Règle des 24h)</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+        Chaque matin, notez votre douleur au 1er pas. Cela recalcule instantanément votre niveau de reprise recommandé.
+      </p>
       
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
         <span style="font-size: 0.85rem; font-weight: 800;">Douleur au premier pas :</span>
@@ -553,10 +629,10 @@
         <span style="font-weight: 900; font-size: 1.15rem; width: 32px;" id="pain-val">1</span>/10
       </div>
 
-      <input type="text" id="input-note" placeholder="Ex: Course de 15 min hier soir sans gêne" style="width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 10px;">
+      <input type="text" id="input-note" placeholder="Ex: Sortie de 20 min hier soir, réveil parfait sans douleur" style="width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 10px;">
 
       <button class="btn-action" onclick="savePainEntry()" style="width: 100%; justify-content: center; padding: 11px;">
-        Enregistrer le relevé
+        Enregistrer le relevé matinal
       </button>
 
       <div id="pain-history" style="margin-top: 18px;"></div>
@@ -669,7 +745,7 @@
     updateWeight(w);
   }
 
-  /* EXERCISE DATABASE */
+  /* EXERCISE DATABASE WITH REAL PHOTO / DIAGRAM ASSETS */
   const exoData = {
     1: [
       {
@@ -677,36 +753,30 @@
         title: "Soléaire Isométrique Assis (Lourd)",
         tag: "Soléaire",
         meta: "5 séries x 45s (2 min repos)",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Seated-calf-raise-2-2.gif",
         timer: 45,
-        postures: {
-          start: "Assis sur une chaise, genoux pliés à 90°, pieds à plat au sol. Posez votre sac ou poids lourd sur le bas de vos cuisses.",
-          finish: "Décollez les talons de 3 à 4 cm seulement. Bloquez fermement la position sans relâcher.",
-          cues: { do: "✓ Poids lourd (15-20 kg)", dont: "✗ Ne pas monter sur le bout des orteils" }
-        }
+        desc: "Assis à 90°, pieds à plat. Posez un poids lourd sur le bas des cuisses. Décollez les talons de 3 cm et bloquez fermement sans bouger.",
+        cues: { do: "✓ Charge lourde (15-20 kg)", dont: "✗ Ne pas monter sur le bout des orteils" }
       },
       {
         id: "p1_tib_post",
-        title: "Tibial Postérieur avec balle de tennis",
+        title: "Tibial Postérieur avec balle entre talons",
         tag: "Tibial Post.",
         meta: "4 séries x 30s de compression",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Calf-raises-1.png",
         timer: 30,
-        postures: {
-          start: "Debout pieds nus, placez une balle de tennis entre vos deux talons.",
-          finish: "Montez de 2 cm sur demi-pointes en écrasant fort la balle vers l'intérieur.",
-          cues: { do: "✓ Maintenir les chevilles droites", dont: "✗ Ne pas laisser les pieds partir en canard" }
-        }
+        desc: "Debout pieds nus, pressez fort une balle de tennis entre vos deux talons et montez de 2 cm sur demi-pointes.",
+        cues: { do: "✓ Serrer fermement vers l'intérieur", dont: "✗ Ne pas laisser les chevilles partir vers l'extérieur" }
       },
       {
         id: "p1_short_foot",
         title: "Pied Court de Janda (Short Foot)",
         tag: "Voûte",
         meta: "3 séries x 10 contractions de 5s",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_a.png?width=250",
         timer: 30,
-        postures: {
-          start: "Debout ou assis, pied nu posé bien à plat sur le carrelage.",
-          finish: "Faites glisser la racine du gros orteil vers le talon pour creuser la voûte plantaire.",
-          cues: { do: "✓ Orteils totalement allongés", dont: "✗ Interdit de crisper/griffer les orteils" }
-        }
+        desc: "Pied à plat au sol sans recroqueviller les orteils, ramenez la base du gros orteil vers le talon pour creuser la voûte plantaire.",
+        cues: { do: "✓ Orteils allongés et détendus", dont: "✗ Interdit de griffer le sol avec les orteils" }
       }
     ],
     2: [
@@ -715,24 +785,20 @@
         title: "Mollet lourd sur marche genou fléchi",
         tag: "Excentrique",
         meta: "3 séries x 10 reps (descente 4s)",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Standing-calf-raises-1.gif",
         timer: 60,
-        postures: {
-          start: "Sur le bord d'une marche sur une jambe, genou constamment plié à environ 30°.",
-          finish: "Descendez lentement le talon sous le niveau de la marche en 4 secondes complètes de retenue.",
-          cues: { do: "✓ Garder le genou plié tout le long", dont: "✗ Ne pas donner d'à-coup à la descente" }
-        }
+        desc: "Sur une marche sur 1 jambe, genou constamment plié à 30°. Montez en 1 seconde, puis retenez la descente sous la marche en 4 secondes lentes.",
+        cues: { do: "✓ Garder le genou plié pendant tout le mouvement", dont: "✗ Pas d'à-coup brutal en bas de la marche" }
       },
       {
         id: "p2_tibialis",
         title: "Tibialis Raises (Dos au mur)",
         tag: "Tibial Ant.",
         meta: "3 séries x 20 répétitions",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/1123_Muscles_of_the_Leg_that_Move_the_Foot_and_Toes_a.png?width=250",
         timer: 45,
-        postures: {
-          start: "Adossé contre un mur lisse, talons avancés de 40 cm par rapport au mur.",
-          finish: "Relevez la pointe des pieds le plus haut possible vers le ciel, bloquez 1s, reposez.",
-          cues: { do: "✓ Jambes bien tendues", dont: "✗ Ne pas décoller les fesses du mur" }
-        }
+        desc: "Adossé contre un mur, talons à 40 cm en avant. Levez les orteils vers le ciel au maximum, marquez 1s en haut, puis reposez.",
+        cues: { do: "✓ Amplitude maximale vers le haut", dont: "✗ Ne pas plier les genoux" }
       }
     ],
     3: [
@@ -741,12 +807,10 @@
         title: "Pogo Jumps (Rebonds élastiques)",
         tag: "Pliométrie",
         meta: "4 séries x 20 secondes",
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Standing-calf-raises-1.gif",
         timer: 30,
-        postures: {
-          start: "Debout bien droit, genoux très légèrement déverrouillés.",
-          finish: "Enchaînez de tout petits sauts sur place réactifs, uniquement avec la cheville.",
-          cues: { do: "✓ Contact au sol le plus bref possible", dont: "✗ Ne pas fléchir les cuisses en squat" }
-        }
+        desc: "Debout bien droit, genoux quasi verrouillés. Enchaînez de petits rebonds très réactifs au sol uniquement avec la cheville.",
+        cues: { do: "✓ Temps de contact au sol minimal", dont: "✗ Ne pas amortir en squat profond" }
       }
     ]
   };
@@ -771,16 +835,6 @@
     data[id] = !data[id];
     localStorage.setItem('tc_exos', JSON.stringify(data));
     renderExos();
-  }
-
-  function togglePostureView(id, phase, btn) {
-    const card = document.getElementById(`posture-card-${id}`);
-    const exo = exoData[currentExoPhase].find(e => e.id === id);
-    if (!exo) return;
-
-    card.querySelector('.posture-desc').textContent = phase === 'start' ? exo.postures.start : exo.postures.finish;
-    btn.parentElement.querySelectorAll('.p-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
   }
 
   function startExoTimer(id, sec) {
@@ -836,19 +890,19 @@
             <span class="exo-tag">${item.tag}</span>
           </div>
 
-          <div class="posture-box" id="posture-card-${item.id}">
-            <div class="posture-tabs">
-              <button class="p-btn active" onclick="togglePostureView('${item.id}', 'start', this)">1. Départ</button>
-              <button class="p-btn" onclick="togglePostureView('${item.id}', 'finish', this)">2. Action & Fin</button>
-            </div>
-            <div class="posture-desc">${item.postures.start}</div>
-            <div class="cues-grid">
-              <div class="cue-do">${item.postures.cues.do}</div>
-              <div class="cue-dont">${item.postures.cues.dont}</div>
+          <div class="exo-visual-row">
+            <img src="${item.img}" alt="${item.title}" class="exo-thumb">
+            <div style="font-size:0.82rem; color:var(--text); line-height:1.4;">
+              ${item.desc}
             </div>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+          <div class="cues-grid">
+            <div class="cue-do">${item.cues.do}</div>
+            <div class="cue-dont">${item.cues.dont}</div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:10px; border-top:1px dashed var(--border);">
             <button class="btn-action" id="time-btn-${item.id}" onclick="startExoTimer('${item.id}', ${item.timer})">
               ⏱ ${isRunning ? `Stop (${activeExoTimers[item.id].left}s)` : `Lancer chrono (${item.timer}s)`}
             </button>
@@ -864,7 +918,141 @@
     }).join('');
   }
 
-  /* QUESTIONNAIRE DERNIÈRE SORTIE & ANALYSE CLINIQUE */
+  /* PROTOCOLE RETURN-TO-RUN & ADAPTATION DYNAMIQUE */
+  const rtrStages = [
+    { s: 1, runSec: 60, walkSec: 60, reps: 10, title: "Étape 1 : 10x (1 min course / 1 min marche)", total: "20 min (10 min course)" },
+    { s: 2, runSec: 120, walkSec: 60, reps: 7, title: "Étape 2 : 7x (2 min course / 1 min marche)", total: "21 min (14 min course)" },
+    { s: 3, runSec: 180, walkSec: 60, reps: 6, title: "Étape 3 : 6x (3 min course / 1 min marche)", total: "24 min (18 min course)" },
+    { s: 4, runSec: 240, walkSec: 60, reps: 5, title: "Étape 4 : 5x (4 min course / 1 min marche)", total: "25 min (20 min course)" },
+    { s: 5, runSec: 360, walkSec: 60, reps: 4, title: "Étape 5 : 4x (6 min course / 1 min marche)", total: "28 min (24 min course)" },
+    { s: 6, runSec: 480, walkSec: 120, reps: 3, title: "Étape 6 : 3x (8 min course / 2 min marche)", total: "30 min (24 min course)" },
+    { s: 7, runSec: 720, walkSec: 120, reps: 2, title: "Étape 7 : 2x (12 min course / 2 min marche)", total: "28 min (24 min course)" },
+    { s: 8, runSec: 1500, walkSec: 0, reps: 1, title: "Étape 8 : 25 min en continu souple", total: "25 min course continue" }
+  ];
+
+  function getLatestRunDebrief() {
+    const debriefs = JSON.parse(localStorage.getItem('tc_run_debriefs') || '[]');
+    return debriefs.length > 0 ? debriefs[0] : null;
+  }
+
+  function getLatestPain() {
+    const hist = JSON.parse(localStorage.getItem('tc_pain_history') || '[]');
+    return hist.length > 0 ? parseInt(hist[0].pain) : 1;
+  }
+
+  function evaluateAdaptiveProtocol() {
+    const currentStep = parseInt(localStorage.getItem('tc_rtr_step') || '1');
+    const lastRun = getLatestRunDebrief();
+    const morningPain = getLatestPain();
+
+    let recommendedStep = currentStep;
+    let status = 'hold';
+    let message = "";
+    let color = "var(--blue)";
+
+    if (!lastRun) {
+      status = 'hold';
+      recommendedStep = currentStep;
+      message = "Prêt pour votre première séance de reprise ! Démarrez par l'Étape 1.";
+    } else {
+      const runPain = parseInt(lastRun.pain);
+
+      if (runPain <= 2 && morningPain <= 2) {
+        status = 'promote';
+        recommendedStep = Math.min(8, currentStep + 1);
+        color = "var(--green)";
+        message = `🟢 <strong>Progression validée !</strong> Dernière sortie à ${runPain}/10 et réveil à ${morningPain}/10. Votre périoste a assimilé la charge : passage à l'<strong>Étape ${recommendedStep}</strong>.`;
+      } else if (runPain >= 5 || morningPain >= 5) {
+        status = 'regress';
+        recommendedStep = Math.max(1, currentStep - 1);
+        color = "var(--coral)";
+        message = `🔴 <strong>Surcharge détectée (${Math.max(runPain, morningPain)}/10).</strong> Risque de rechute. Rétrogradation automatique à l'<strong>Étape ${recommendedStep}</strong> avec 48h de repos d'impact.`;
+      } else {
+        status = 'hold';
+        recommendedStep = currentStep;
+        color = "var(--amber)";
+        message = `🟡 <strong>Consolidation requise (${Math.max(runPain, morningPain)}/10).</strong> La charge était limite. Répétez l'<strong>Étape ${currentStep}</strong> sans augmenter le volume avant de passer au palier supérieur.`;
+      }
+    }
+
+    return { currentStep, recommendedStep, status, message, color };
+  }
+
+  function renderAdaptiveProtocol() {
+    const evalResult = evaluateAdaptiveProtocol();
+    const banner = document.getElementById('adaptive-rtr-banner');
+
+    banner.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:${evalResult.color};">
+          Intelligence de Reprise
+        </span>
+        <span style="font-size:0.78rem; font-weight:800; background:#f1f5f9; padding:2px 8px; border-radius:12px;">
+          Cible : Étape ${evalResult.recommendedStep}/8
+        </span>
+      </div>
+      <div style="font-size:0.84rem; line-height:1.45; color:var(--text); margin-bottom:10px;">
+        ${evalResult.message}
+      </div>
+      <button class="btn-action" style="width:100%; justify-content:center; padding:9px; background:${evalResult.color}; font-size:0.82rem;" onclick="applyRecommendedStep(${evalResult.recommendedStep})">
+        👉 Activer l'Étape ${evalResult.recommendedStep} pour la prochaine sortie
+      </button>
+    `;
+
+    renderRTRList(evalResult);
+  }
+
+  function applyRecommendedStep(s) {
+    localStorage.setItem('tc_rtr_step', s);
+    resetRunTrainer();
+    renderAdaptiveProtocol();
+    updateReadinessDashboard();
+    speak(`Étape ${s} activée pour votre entraînement.`);
+  }
+
+  function renderRTRList(evalResult) {
+    const activeStep = parseInt(localStorage.getItem('tc_rtr_step') || '1');
+    const container = document.getElementById('rtr-list');
+
+    container.innerHTML = rtrStages.map(step => {
+      const isCur = step.s === activeStep;
+      const isTarget = step.s === evalResult.recommendedStep;
+      const isPast = step.s < activeStep;
+      const isLocked = step.s > evalResult.recommendedStep;
+
+      let cardClass = "rtr-card";
+      if (isCur) cardClass += " current";
+      if (isTarget && !isCur) cardClass += " recommended";
+      if (isLocked) cardClass += " locked";
+
+      let badgeHtml = "";
+      if (isPast) badgeHtml = `<span class="step-badge badge-done">✓ Validée</span>`;
+      else if (isTarget) badgeHtml = `<span class="step-badge badge-target">🎯 Recommandée</span>`;
+      else if (isLocked) badgeHtml = `<span class="step-badge badge-lock">🔒 Verrouillée</span>`;
+
+      return `
+        <div class="${cardClass}">
+          <div>
+            <div style="font-weight: 900; font-size: 0.88rem;">
+              ${step.title} ${badgeHtml}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">${step.total}</div>
+          </div>
+          <button class="btn-action" style="background:${isCur ? 'var(--blue)' : (isLocked ? '#cbd5e1' : 'var(--teal)')}; font-size:0.75rem; padding:6px 12px;" onclick="setRTRStep(${step.s})" ${isLocked ? 'disabled' : ''}>
+            ${isCur ? 'Actif' : (isLocked ? 'Bloqué' : 'Sélectionner')}
+          </button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function setRTRStep(s) {
+    localStorage.setItem('tc_rtr_step', s);
+    resetRunTrainer();
+    renderAdaptiveProtocol();
+  }
+
+  /* QUESTIONNAIRE DEBRIEFING */
   function getRunHistory() {
     try { return JSON.parse(localStorage.getItem('tc_run_debriefs') || '[]'); } catch { return []; }
   }
@@ -883,13 +1071,13 @@
 
     if (painInput <= 2) {
       styleClass = "var(--green-light); color:#065f46; border:1px solid var(--green);";
-      verdict = "<strong>🟢 Séance validée avec succès !</strong> Votre périoste a parfaitement encaissé la charge. Si votre douleur reste ≤ 2/10 demain matin au réveil, vous pourrez valider votre étape.";
+      verdict = "<strong>🟢 Séance validée !</strong> Périoste stable pendant l'effort. Si votre réveil de demain matin reste indolore (≤ 2/10), l'étape supérieure sera définitivement confirmée.";
     } else if (painInput <= 4) {
       styleClass = "var(--amber-light); color:#92400e; border:1px solid var(--amber);";
-      verdict = "<strong>🟡 Seuil de tolérance limite.</strong> La charge était un peu haute. Ne montez pas d'étape lors de votre prochaine sortie : réitérez exactement ce palier pour consolider l'os.";
+      verdict = "<strong>🟡 Seuil de tolérance limite.</strong> Restez sur cette étape lors de votre prochaine sortie pour consolider l'os.";
     } else {
       styleClass = "var(--coral-light); color:#9f1239; border:1px solid var(--coral);";
-      verdict = "<strong>🔴 Surcharge mécanique constatée.</strong> Douleur trop vive pendant la course. Observez 48h de repos d'impact, faites de l'isométrie assise et revenez au palier inférieur à la reprise.";
+      verdict = "<strong>🔴 Surcharge mécanique.</strong> Douleur trop vive : le protocole rétrograde votre prochaine étape d'un palier.";
     }
 
     feedbackBox.style.cssText = `background:${styleClass} padding:10px 12px; border-radius:10px; font-size:0.83rem; line-height:1.4; margin-top:10px;`;
@@ -897,52 +1085,16 @@
 
     const hist = getRunHistory();
     hist.unshift({ date: dateInput, km: kmInput, chrono: chronoInput, pain: painInput });
-    localStorage.setItem('tc_run_debriefs', JSON.stringify(hist.slice(0, 6)));
+    localStorage.setItem('tc_run_debriefs', JSON.stringify(hist.slice(0, 8)));
 
-    renderRunHistory();
+    renderAdaptiveProtocol();
+    updateReadinessDashboard();
   }
 
-  function renderRunHistory() {
-    const hist = getRunHistory();
-    const container = document.getElementById('run-history-list');
-
-    if (!hist.length) {
-      container.innerHTML = `<p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">Aucune sortie renseignée.</p>`;
-      return;
-    }
-
-    container.innerHTML = `<div style="font-size:0.82rem; font-weight:900; margin-bottom:6px;">Dernières séances enregistrées :</div>` +
-      hist.map(r => `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-bottom:1px solid var(--border); font-size:0.8rem;">
-          <div>
-            <strong>${r.date}</strong> : ${r.km} km en ${r.chrono}
-          </div>
-          <span style="font-weight:900; padding:2px 8px; border-radius:10px; background:${r.pain > 4 ? 'var(--coral-light)' : (r.pain > 2 ? 'var(--amber-light)' : 'var(--green-light)')}; color:${r.pain > 4 ? 'var(--coral)' : (r.pain > 2 ? '#b45309' : 'var(--green)')};">
-            ${r.pain}/10
-          </span>
-        </div>
-      `).join('');
-  }
-
-  /* RETURN TO RUN PROTOCOL */
-  const rtrStages = [
-    { s: 1, runSec: 60, walkSec: 60, reps: 10, title: "Étape 1 : 10x (1 min course / 1 min marche)", total: "20 min" },
-    { s: 2, runSec: 120, walkSec: 60, reps: 7, title: "Étape 2 : 7x (2 min course / 1 min marche)", total: "21 min" },
-    { s: 3, runSec: 180, walkSec: 60, reps: 6, title: "Étape 3 : 6x (3 min course / 1 min marche)", total: "24 min" },
-    { s: 4, runSec: 240, walkSec: 60, reps: 5, title: "Étape 4 : 5x (4 min course / 1 min marche)", total: "25 min" },
-    { s: 5, runSec: 360, walkSec: 60, reps: 4, title: "Étape 5 : 4x (6 min course / 1 min marche)", total: "28 min" },
-    { s: 6, runSec: 480, walkSec: 120, reps: 3, title: "Étape 6 : 3x (8 min course / 2 min marche)", total: "30 min" },
-    { s: 7, runSec: 720, walkSec: 120, reps: 2, title: "Étape 7 : 2x (12 min course / 2 min marche)", total: "28 min" },
-    { s: 8, runSec: 1500, walkSec: 0, reps: 1, title: "Étape 8 : 25 min en continu souple", total: "25 min" }
-  ];
-
-  function getLatestPain() {
-    const hist = JSON.parse(localStorage.getItem('tc_pain_history') || '[]');
-    return hist.length > 0 ? parseInt(hist[0].pain) : 1;
-  }
-
+  /* READINESS DASHBOARD */
   function updateReadinessDashboard() {
-    const pain = getLatestPain();
+    const morningPain = getLatestPain();
+    const lastRun = getLatestRunDebrief();
     const card = document.getElementById('readiness-card');
     const tag = document.getElementById('readiness-tag');
     const title = document.getElementById('readiness-title');
@@ -950,52 +1102,22 @@
 
     card.className = "readiness-banner";
 
-    if (pain <= 2) {
+    if (morningPain <= 2 && (!lastRun || lastRun.pain <= 2)) {
       card.classList.add('green');
       tag.textContent = "Feu Vert — Séance Autorisée";
-      title.textContent = `Douleur matinale : ${pain} / 10`;
-      desc.textContent = "Votre périoste s'adapte parfaitement. Vous pouvez effectuer la séance d'intervalles prévue.";
-    } else if (pain <= 4) {
+      title.textContent = `Douleur matinale : ${morningPain} / 10`;
+      desc.textContent = "Excellente réponse biologique. Votre périoste est prêt pour la séance de reprise programmée.";
+    } else if (morningPain <= 4 || (lastRun && lastRun.pain <= 4)) {
       card.classList.add('orange');
       tag.textContent = "Feu Orange — Prudence";
-      title.textContent = `Douleur matinale : ${pain} / 10`;
-      desc.textContent = "Seuil d'alerte atteint. Ne montez pas d'étape aujourd'hui. Privilégiez 30 min de vélo ou refaites l'étape inférieure.";
+      title.textContent = `Douleur matinale : ${morningPain} / 10`;
+      desc.textContent = "Seuil d'alerte atteint. Ne montez pas d'étape aujourd'hui. Répétez votre palier ou privilégiez 30 min de vélo.";
     } else {
       card.classList.add('red');
       tag.textContent = "Feu Rouge — Course Déconseillée";
-      title.textContent = `Douleur matinale : ${pain} / 10`;
-      desc.textContent = "Surcharge osseuse avérée. Ne courez pas aujourd'hui. Repos des impacts strict et faites vos séries d'isométrie assise.";
+      title.textContent = `Douleur matinale : ${morningPain} / 10`;
+      desc.textContent = "Surcharge osseuse active. 48h de repos d'impact obligatoires. Faites de l'isométrie assise.";
     }
-  }
-
-  function renderRTR() {
-    const savedStep = parseInt(localStorage.getItem('tc_rtr_step') || '1');
-    const latestPain = getLatestPain();
-    const container = document.getElementById('rtr-list');
-
-    container.innerHTML = rtrStages.map(step => {
-      const isCur = step.s === savedStep;
-      const isPast = step.s < savedStep;
-      const isBlocked = latestPain >= 5 && isCur;
-
-      return `
-        <div class="rtr-card ${isCur ? 'current' : ''} ${isBlocked ? 'locked' : ''}">
-          <div>
-            <div style="font-weight: 900; font-size: 0.88rem;">${step.title} ${isPast ? '✅' : ''}</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">${isBlocked ? '⚠️ Bloqué par la douleur du matin' : 'Durée totale : ' + step.total}</div>
-          </div>
-          <button class="btn-action" style="background:${isCur ? (isBlocked ? 'var(--coral)' : 'var(--blue)') : '#cbd5e1'}; font-size:0.75rem; padding:6px 12px;" onclick="setRTRStep(${step.s})">
-            ${isCur ? (isBlocked ? 'Alerte' : 'Actif') : 'Choisir'}
-          </button>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function setRTRStep(s) {
-    localStorage.setItem('tc_rtr_step', s);
-    resetRunTrainer();
-    renderRTR();
   }
 
   /* LIVE VOICE RUN INTERVAL TRAINER */
@@ -1068,13 +1190,13 @@
           releaseWakeLock();
           document.getElementById('live-phase').textContent = "Séance terminée ! 🎉";
           document.getElementById('live-timer').textContent = "00:00";
-          speak("Félicitations ! Séance terminée. Renseignez votre questionnaire juste au-dessus.");
+          speak("Félicitations ! Séance terminée. Renseignez votre bilan juste au-dessus.");
           return;
         }
         trainerPhase = 'run';
         trainerSec = config.runSec;
         document.getElementById('live-phase').textContent = "Course lente 🏃‍♂️";
-        speak(`Intervalle ${trainerRep}. Reprenez la course douce.`);
+        speak(`Intervalle ${trainerRep}. Reprenez la course.`);
       }
     }
 
@@ -1139,7 +1261,7 @@
     }
   }
 
-  /* PAIN LOG & PERSISTENCE */
+  /* PAIN LOG (24H) */
   function getPainHistory() {
     try { return JSON.parse(localStorage.getItem('tc_pain_history') || '[]'); } catch { return []; }
   }
@@ -1155,8 +1277,8 @@
 
     document.getElementById('input-note').value = "";
     renderPainHistory();
+    renderAdaptiveProtocol();
     updateReadinessDashboard();
-    renderRTR();
   }
 
   function renderPainHistory() {
@@ -1218,13 +1340,11 @@
   // Initial runs
   initWeight();
   renderExos();
-  renderRTR();
+  renderAdaptiveProtocol();
   resetRunTrainer();
   renderPainHistory();
-  renderRunHistory();
   updateReadinessDashboard();
 
-  // Set default date input to today
   document.getElementById('run-date').value = new Date().toISOString().slice(0, 10);
 </script>
 
